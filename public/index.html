@@ -243,14 +243,42 @@ header {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 3px 10px;
+  padding: 3px 6px 3px 10px;
   cursor: pointer;
   transition: all 0.12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 .quick-chip:hover {
   background: var(--accent-light);
   border-color: rgba(59,110,248,0.3);
   color: var(--accent);
+}
+.quick-chip-label {
+  pointer-events: none;
+}
+.quick-chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--muted);
+  background: transparent;
+  transition: background 0.12s, color 0.12s;
+  flex-shrink: 0;
+  pointer-events: all;
+}
+.quick-chip:hover .quick-chip-remove {
+  color: var(--accent);
+}
+.quick-chip-remove:hover {
+  background: var(--danger-light) !important;
+  color: var(--danger) !important;
 }
 
 /* Left panel body — idle/result states */
@@ -1290,13 +1318,31 @@ let chatHistory = [];
 // ================================================================
 //  INIT
 // ================================================================
-function initQuickChips() {
+// Persisted quick-access list (session)
+let quickIds = RAW_SUMMARY.slice(0, 5).map(s => s.id);
+
+function renderQuickChips() {
   const chips = document.getElementById('quick-chips');
-  // Show first 5 IDs as quick access chips
-  const quickIds = RAW_SUMMARY.slice(0, 5).map(s => s.id);
+  if (quickIds.length === 0) {
+    chips.innerHTML = '<span style="font-size:10px;color:var(--muted);font-style:italic;">No quick access IDs</span>';
+    return;
+  }
   chips.innerHTML = quickIds.map(id =>
-    `<div class="quick-chip" onclick="quickLoad('${id}')">${id}</div>`
+    `<div class="quick-chip" onclick="quickLoad('${id}')">
+      <span class="quick-chip-label">${id}</span>
+      <span class="quick-chip-remove" title="Remove from Quick Access" onclick="removeQuickChip(event,'${id}')">&#x2715;</span>
+    </div>`
   ).join('');
+}
+
+function initQuickChips() {
+  renderQuickChips();
+}
+
+function removeQuickChip(event, id) {
+  event.stopPropagation();
+  quickIds = quickIds.filter(q => q !== id);
+  renderQuickChips();
 }
 
 function initials(name) {
