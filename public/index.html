@@ -130,9 +130,6 @@ header {
   height: calc(100vh - 48px);
 }
 
-/* Fixed top zone wrapper for left panel */
-.left-fixed-top { flex-shrink: 0; }
-
 /* ===== LEFT PANEL ===== */
 .left-panel {
   width: 280px;
@@ -147,7 +144,7 @@ header {
 
 /* Search area */
 .search-area {
-  padding: 16px 16px 12px;
+  padding: 20px 20px 16px;
   border-bottom: 1px solid var(--border);
 }
 .search-label {
@@ -223,7 +220,7 @@ header {
 
 /* Quick ID chips */
 .quick-ids {
-  padding: 10px 16px 12px;
+  padding: 10px 20px 16px;
   border-bottom: 1px solid var(--border);
 }
 .quick-ids-label {
@@ -246,41 +243,14 @@ header {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 3px 6px 3px 10px;
+  padding: 3px 10px;
   cursor: pointer;
   transition: all 0.12s;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
 }
 .quick-chip:hover {
   background: var(--accent-light);
   border-color: rgba(59,110,248,0.3);
   color: var(--accent);
-}
-.quick-chip-label { cursor: pointer; }
-.quick-chip-remove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--surface3);
-  color: var(--muted);
-  font-size: 9px;
-  line-height: 1;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.12s, color 0.12s;
-}
-.quick-chip:hover .quick-chip-remove {
-  background: rgba(220,38,38,0.15);
-  color: var(--danger);
-}
-.quick-chip-remove:hover {
-  background: var(--danger) !important;
-  color: #fff !important;
 }
 
 /* Left panel body — idle/result states */
@@ -670,21 +640,15 @@ header {
 .collapsible { display: none; }
 .collapsible.open { display: block; }
 
-/* ===== RIGHT PANEL (CHAT) — Fixed compact widget ===== */
+/* ===== RIGHT PANEL (CHAT) ===== */
 .right-panel {
-  width: 320px;
+  width: 340px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   background: var(--surface);
-  border-left: 1px solid var(--border);
-  /* Fixed height — does NOT stretch with dashboard content */
-  height: 100%;
-  max-height: calc(100vh - 48px);
-  position: sticky;
-  top: 0;
-  align-self: flex-start;
   overflow: hidden;
+  min-height: 0;
 }
 
 .chat-header {
@@ -926,22 +890,20 @@ header {
 
   <!-- LEFT PANEL: Search only -->
   <div class="left-panel">
-    <div class="left-fixed-top">
-      <div class="search-area">
-        <div class="search-label">Student ID Lookup</div>
-        <div class="search-row">
-          <div class="search-input-wrap">
-            <input type="text" id="sid-input" class="search-input" placeholder="242-15-316" />
-            <button class="btn-clear" id="btn-clear" onclick="clearAll()" title="Clear">✕</button>
-          </div>
-          <button class="btn-search" onclick="loadStudent()">Search →</button>
+    <div class="search-area">
+      <div class="search-label">Student ID Lookup</div>
+      <div class="search-row">
+        <div class="search-input-wrap">
+          <input type="text" id="sid-input" class="search-input" placeholder="242-15-316" />
+          <button class="btn-clear" id="btn-clear" onclick="clearAll()" title="Clear">✕</button>
         </div>
+        <button class="btn-search" onclick="loadStudent()">Search →</button>
       </div>
+    </div>
 
-      <div class="quick-ids">
-        <div class="quick-ids-label">Quick access</div>
-        <div class="quick-chips" id="quick-chips"></div>
-      </div>
+    <div class="quick-ids">
+      <div class="quick-ids-label">Quick access</div>
+      <div class="quick-chips" id="quick-chips"></div>
     </div>
 
     <div class="left-body">
@@ -1328,30 +1290,13 @@ let chatHistory = [];
 // ================================================================
 //  INIT
 // ================================================================
-let quickIds = RAW_SUMMARY.slice(0, 5).map(s => s.id);
-
-function renderQuickChips() {
-  const chips = document.getElementById('quick-chips');
-  if (quickIds.length === 0) {
-    chips.innerHTML = '<span style="font-size:10px;color:var(--muted);font-family:var(--mono);">No quick access IDs</span>';
-    return;
-  }
-  chips.innerHTML = quickIds.map(id =>
-    `<div class="quick-chip">
-      <span class="quick-chip-label" onclick="quickLoad('${id}')">${id}</span>
-      <span class="quick-chip-remove" onclick="removeQuickChip(event,'${id}')" title="Remove">✕</span>
-    </div>`
-  ).join('');
-}
-
 function initQuickChips() {
-  renderQuickChips();
-}
-
-function removeQuickChip(e, id) {
-  e.stopPropagation();
-  quickIds = quickIds.filter(q => q !== id);
-  renderQuickChips();
+  const chips = document.getElementById('quick-chips');
+  // Show first 5 IDs as quick access chips
+  const quickIds = RAW_SUMMARY.slice(0, 5).map(s => s.id);
+  chips.innerHTML = quickIds.map(id =>
+    `<div class="quick-chip" onclick="quickLoad('${id}')">${id}</div>`
+  ).join('');
 }
 
 function initials(name) {
