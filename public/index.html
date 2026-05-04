@@ -54,7 +54,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 52px;
+  height: 48px;
   flex-shrink: 0;
   position: sticky;
   top: 0;
@@ -63,15 +63,32 @@ header {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  gap: 10px;
 }
-.header-sep { color: var(--border-strong); }
-.header-accent { color: var(--accent); font-weight: 500; }
+.brand-logo {
+  width: 28px; height: 28px;
+  background: var(--accent);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.brand-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
 .header-right {
   display: flex;
   align-items: center;
@@ -110,12 +127,12 @@ header {
   display: flex;
   flex: 1;
   overflow: hidden;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 48px);
 }
 
 /* ===== LEFT PANEL ===== */
 .left-panel {
-  width: 320px;
+  width: 280px;
   flex-shrink: 0;
   border-right: 1px solid var(--border);
   background: var(--surface);
@@ -142,14 +159,21 @@ header {
   display: flex;
   gap: 8px;
 }
+.search-input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 .search-input {
   flex: 1;
+  width: 100%;
   background: var(--surface2);
   border: 1px solid var(--border);
   color: var(--text);
   font-family: var(--mono);
   font-size: 12px;
-  padding: 9px 13px;
+  padding: 9px 32px 9px 13px;
   border-radius: var(--radius);
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
@@ -161,6 +185,22 @@ header {
   background: var(--surface);
 }
 .search-input::placeholder { color: var(--muted); }
+.btn-clear {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: none;
+  transition: color 0.12s, background 0.12s;
+}
+.btn-clear:hover { color: var(--danger); background: var(--danger-light); }
+.btn-clear.visible { display: block; }
 .btn-search {
   background: var(--accent);
   color: #fff;
@@ -328,8 +368,8 @@ header {
 
 /* ===== MIDDLE PANEL ===== */
 .middle-panel {
-  width: 420px;
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
   border-right: 1px solid var(--border);
   background: var(--bg);
   overflow-y: auto;
@@ -599,12 +639,12 @@ header {
 
 /* ===== RIGHT PANEL (CHAT) ===== */
 .right-panel {
-  flex: 1;
+  width: 340px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   background: var(--surface);
   overflow: hidden;
-  min-width: 0;
 }
 
 .chat-header {
@@ -823,15 +863,11 @@ header {
 <!-- HEADER -->
 <header>
   <div class="header-left">
-    <span class="header-accent">SAS</span>
-    <span class="header-sep">·</span>
-    <span>Student Advisory System</span>
-    <span class="header-sep">·</span>
-    <span>v1.0</span>
-    <span class="header-sep">·</span>
-    <span>RAG</span>
-    <span class="header-sep">·</span>
-    <span>Anthropic Claude</span>
+    <div class="brand-logo">SA</div>
+    <div>
+      <div class="brand-name">Student Advisory System</div>
+      <div class="brand-sub">Daffodil International University</div>
+    </div>
   </div>
   <div class="header-right">
     <div class="header-badge">Batch 67 · CSE</div>
@@ -850,7 +886,10 @@ header {
     <div class="search-area">
       <div class="search-label">Student ID Lookup</div>
       <div class="search-row">
-        <input type="text" id="sid-input" class="search-input" placeholder="242-15-316" />
+        <div class="search-input-wrap">
+          <input type="text" id="sid-input" class="search-input" placeholder="242-15-316" />
+          <button class="btn-clear" id="btn-clear" onclick="clearAll()" title="Clear">✕</button>
+        </div>
         <button class="btn-search" onclick="loadStudent()">Search →</button>
       </div>
     </div>
@@ -1261,7 +1300,9 @@ function initials(name) {
 //  SEARCH LOGIC — search-first, no pre-loaded list
 // ================================================================
 function quickLoad(id) {
-  document.getElementById('sid-input').value = id;
+  const inp = document.getElementById('sid-input');
+  inp.value = id;
+  document.getElementById('btn-clear').classList.add('visible');
   loadStudent();
 }
 
@@ -1282,6 +1323,7 @@ function loadStudent() {
     return;
   }
 
+  document.getElementById('btn-clear').classList.add('visible');
   showFoundResult(s);
   currentStudent = s;
   chatHistory = [];
@@ -1555,10 +1597,47 @@ document.getElementById('chat-input').addEventListener('keydown', e => {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
 });
 
+// Search input — show/hide clear btn, auto-clear dashboard when emptied
+document.getElementById('sid-input').addEventListener('input', function() {
+  const clearBtn = document.getElementById('btn-clear');
+  if (this.value.trim()) {
+    clearBtn.classList.add('visible');
+  } else {
+    clearBtn.classList.remove('visible');
+    // Auto-reset dashboard when field is completely cleared
+    resetToIdle();
+  }
+});
+
 // Enter to search
 document.getElementById('sid-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') loadStudent();
 });
+
+function clearAll() {
+  const inp = document.getElementById('sid-input');
+  inp.value = '';
+  document.getElementById('btn-clear').classList.remove('visible');
+  resetToIdle();
+  inp.focus();
+}
+
+function resetToIdle() {
+  // Left panel
+  document.getElementById('idle-state').style.display = 'flex';
+  document.getElementById('notfound-state').style.display = 'none';
+  document.getElementById('student-result').style.display = 'none';
+  // Middle panel
+  document.getElementById('empty-left').style.display = 'flex';
+  document.getElementById('student-content').style.display = 'none';
+  // Right panel
+  document.getElementById('no-student-chat').style.display = 'flex';
+  document.getElementById('chat-body').style.display = 'none';
+  document.getElementById('chat-dot').classList.remove('live');
+  document.getElementById('chat-header-name').textContent = '—';
+  currentStudent = null;
+  chatHistory = [];
+}
 
 // Init
 initQuickChips();
