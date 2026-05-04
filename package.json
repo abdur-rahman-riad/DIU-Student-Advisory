@@ -1,0 +1,11 @@
+{
+  "name": "student-advisory-system",
+  "version": "1.0.0",
+  "description": "Student Advisory System with Gemini AI for DIU",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

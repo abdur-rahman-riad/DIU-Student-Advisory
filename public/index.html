@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Advisory System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & VARS ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface2: #f0f2f8;
+  --surface3: #e8eaf2;
+  --border: #e2e5ef;
+  --border-strong: #c8ccd8;
+  --text: #1a1d2e;
+  --text2: #4a5068;
+  --muted: #8a90a8;
+  --accent: #3b6ef8;
+  --accent-light: #ebf0ff;
+  --accent-dim: rgba(59,110,248,0.08);
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --warn: #d97706;
+  --warn-light: #fef3c7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --font: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-logo {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent), #6366f1);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.brand-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.header-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  letter-spacing: 0.04em;
+}
+.status-dot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 2px var(--green-light);
+}
+
+/* ===== MAIN LAYOUT ===== */
+.main-layout {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  overflow: hidden;
+  height: calc(100vh - 56px);
+}
+
+/* ===== LEFT PANEL ===== */
+.left-panel {
+  width: 300px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.panel-section {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.search-row {
+  display: flex;
+  gap: 8px;
+}
+.search-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 9px 13px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.search-input::placeholder { color: var(--muted); }
+.btn-search {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: var(--font);
+  white-space: nowrap;
+}
+.btn-search:hover { opacity: 0.88; }
+
+/* Student list */
+.student-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+.student-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s;
+  border: 1px solid transparent;
+}
+.student-list-item:hover { background: var(--surface2); }
+.student-list-item.active {
+  background: var(--accent-light);
+  border-color: rgba(59,110,248,0.2);
+}
+.sli-avatar {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+.student-list-item.active .sli-avatar {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.sli-info { flex: 1; min-width: 0; }
+.sli-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sli-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+.sli-cgpa {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ===== MIDDLE PANEL ===== */
+.middle-panel {
+  width: 380px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px;
+  color: var(--muted);
+  text-align: center;
+}
+.empty-icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--surface3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+.empty-title { font-size: 14px; font-weight: 600; color: var(--text2); }
+.empty-sub { font-size: 12px; color: var(--muted); }
+
+/* Student profile card */
+#student-content { display: none; padding: 20px; }
+
+.profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.profile-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.s-avatar {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), #6366f1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+.profile-info { flex: 1; min-width: 0; }
+.s-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.s-id {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.s-contact {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+}
+.stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.stat-value {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.stat-sub {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.status-clear { background: var(--green-light); color: var(--green); }
+.status-due { background: var(--warn-light); color: var(--warn); }
+.status-highdue { background: var(--danger-light); color: var(--danger); }
+
+/* Info section */
+.info-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+.info-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Issue tags */
+.issue-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin: 2px 3px 2px 0;
+}
+.issue-ok { background: var(--green-light); color: var(--green); }
+.issue-warn { background: var(--warn-light); color: var(--warn); }
+.issue-danger { background: var(--danger-light); color: var(--danger); }
+
+/* Semester pills */
+.semester-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.sem-pill {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 11px;
+}
+.sem-name { color: var(--muted); font-size: 10px; }
+.sem-gpa { font-family: var(--mono); font-weight: 700; font-size: 13px; }
+
+/* Payment bar */
+.payment-bar-bg {
+  height: 6px;
+  background: var(--surface3);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 8px 0 4px;
+}
+.payment-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--green);
+  transition: width 0.6s ease;
+}
+.payment-bar-fill.partial { background: var(--warn); }
+.payment-bar-fill.danger { background: var(--danger); }
+.pay-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* Semester detail table */
+.sem-table-wrap { overflow-x: auto; }
+.sem-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.sem-table th {
+  background: var(--surface2);
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 10px;
+  padding: 7px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.sem-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  white-space: nowrap;
+}
+.sem-table tr:last-child td { border-bottom: none; }
+.sem-table tr:hover td { background: var(--surface2); }
+.grade-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: var(--surface3);
+  color: var(--text);
+}
+.grade-a { background: var(--green-light); color: var(--green); }
+.grade-b { background: var(--accent-light); color: var(--accent); }
+.grade-c { background: var(--warn-light); color: var(--warn); }
+.grade-d { background: var(--danger-light); color: var(--danger); }
+.grade-f { background: var(--danger); color: #fff; }
+
+/* SGPA trend */
+.sgpa-trend {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sgpa-point {
+  flex: 1;
+  min-width: 80px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+}
+.sgpa-sem { font-size: 9px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; }
+.sgpa-val { font-family: var(--mono); font-weight: 700; font-size: 16px; margin-top: 2px; }
+
+/* ===== RIGHT PANEL (CHAT) ===== */
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  overflow: hidden;
+  min-width: 0;
+}
+.chat-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.chat-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6366f1, #a78bfa);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.chat-header-info { flex: 1; }
+.chat-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.chat-sub { font-size: 11px; color: var(--muted); }
+.chat-live-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.chat-live-dot.live {
+  background: var(--green);
+  box-shadow: 0 0 0 2px var(--green-light);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 2px var(--green-light); }
+  50% { box-shadow: 0 0 0 4px rgba(22,163,74,0.2); }
+}
+
+/* Chat no student */
+.no-student-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Chat messages */
+.chat-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.msg {
+  max-width: 88%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.msg-user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 12px 12px 3px 12px;
+}
+.msg-ai {
+  align-self: flex-start;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px 12px 12px 3px;
+}
+.msg-hint {
+  align-self: center;
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  background: var(--surface2);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 14px;
+}
+.typing-indicator span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: bounce 1.2s infinite;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+/* Suggestions */
+.suggestions {
+  padding: 0 20px 10px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.chip:hover {
+  background: var(--accent-light);
+  border-color: rgba(59,110,248,0.3);
+  color: var(--accent);
+}
+
+/* Chat input */
+.chat-input-area {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+.chat-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  outline: none;
+  resize: none;
+  max-height: 120px;
+  min-height: 40px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  line-height: 1.5;
+}
+.chat-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.chat-input::placeholder { color: var(--muted); }
+.send-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+  font-size: 16px;
+}
+.send-btn:hover:not(:disabled) { opacity: 0.88; }
+.send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.input-hint {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 6px;
+  font-family: var(--mono);
+}
+
+/* Confidence badge */
+.conf-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+.conf-high { background: var(--green-light); color: var(--green); }
+.conf-medium { background: var(--warn-light); color: var(--warn); }
+.conf-low { background: var(--danger-light); color: var(--danger); }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .main-layout { flex-direction: column; height: auto; overflow: visible; }
+  .left-panel { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; }
+  .left-panel .panel-section { flex: 1; min-width: 280px; }
+  .student-list { max-height: 200px; }
+  .middle-panel { width: 100%; height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border); }
+  .right-panel { min-height: 450px; }
+}
+@media (max-width: 600px) {
+  header { padding: 0 14px; }
+  .brand-sub { display: none; }
+  .main-layout { height: auto; }
+  .chat-messages { max-height: 300px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== SECTION TOGGLE ===== */
+.section-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+  transition: background 0.15s;
+}
+.section-toggle:hover { background: var(--surface3); }
+.toggle-arrow { margin-left: auto; font-size: 10px; transition: transform 0.2s; }
+.toggle-arrow.open { transform: rotate(180deg); }
+.collapsible { display: none; }
+.collapsible.open { display: block; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-brand">
+    <div class="brand-logo">SA</div>
+    <div>
+      <div class="brand-name">Student Advisory System</div>
+      <div class="brand-sub">Daffodil International University</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-badge">Batch 67 · CSE</div>
+    <div class="status-dot">
+      <div class="dot"></div>
+      <span>AI Ready</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main-layout">
+
+  <!-- LEFT: Search + Student List -->
+  <div class="left-panel">
+    <div class="panel-section">
+      <div class="panel-label">Search Student</div>
+      <div class="search-row">
+        <input type="text" id="sid-input" class="search-input" placeholder="Enter Student ID..." />
+        <button class="btn-search" onclick="loadStudent()">Load</button>
+      </div>
+    </div>
+    <div class="student-list" id="student-list"></div>
+  </div>
+
+  <!-- MIDDLE: Student Profile -->
+  <div class="middle-panel" id="middle-panel">
+    <div class="empty-state" id="empty-left">
+      <div class="empty-icon">🎓</div>
+      <div class="empty-title">Select a Student</div>
+      <div class="empty-sub">Search by ID or click a student from the list to view their advisory profile.</div>
+    </div>
+
+    <div id="student-content">
+      <!-- Profile Card -->
+      <div class="profile-card">
+        <div class="profile-top">
+          <div class="s-avatar" id="s-avatar"></div>
+          <div class="profile-info">
+            <div class="s-name" id="s-name"></div>
+            <div class="s-id" id="s-id"></div>
+            <div class="s-contact" id="s-mobile"></div>
+          </div>
+          <div id="s-status-badge"></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">CGPA</div>
+            <div class="stat-value" id="s-cgpa"></div>
+            <div class="stat-sub" id="s-cgpa-sub"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Credits Completed</div>
+            <div class="stat-value" id="s-credits"></div>
+            <div class="stat-sub">out of enrolled</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Due Amount</div>
+            <div class="stat-value" id="s-due" style="font-size:16px"></div>
+            <div class="stat-sub" id="s-due-sub"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Mentoring Sessions</div>
+            <div class="stat-value" id="s-mentoring"></div>
+            <div class="stat-sub">completed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issues -->
+      <div class="info-section">
+        <div class="info-section-title">⚠ Attention Issues</div>
+        <div id="s-issues"></div>
+      </div>
+
+      <!-- SGPA Trend -->
+      <div class="info-section">
+        <div class="info-section-title">📈 SGPA Trend</div>
+        <div class="sgpa-trend" id="s-sgpa-trend"></div>
+      </div>
+
+      <!-- Payment -->
+      <div class="info-section">
+        <div class="info-section-title">💳 Payment Status</div>
+        <div class="payment-bar-bg"><div class="payment-bar-fill" id="s-paybar" style="width:0%"></div></div>
+        <div class="pay-meta">
+          <span id="s-paid-label"></span>
+          <span id="s-due-label"></span>
+        </div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;">Total Payable: <span id="s-payable"></span></div>
+      </div>
+
+      <!-- Guardian -->
+      <div class="info-section">
+        <div class="info-section-title">👨‍👩‍👧 Guardian Info</div>
+        <div id="s-guardian"></div>
+      </div>
+
+      <!-- Semester Results (collapsible) -->
+      <button class="section-toggle" onclick="toggleSection('sem-section','sem-arrow')">
+        📋 Semester Course Results <span class="toggle-arrow" id="sem-arrow">▼</span>
+      </button>
+      <div class="collapsible info-section" id="sem-section" style="margin-bottom:10px;">
+        <div class="sem-table-wrap" id="s-sem-table"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: Chat -->
+  <div class="right-panel">
+    <div class="chat-header">
+      <div class="chat-icon">✨</div>
+      <div class="chat-header-info">
+        <div class="chat-title" id="chat-header-text">AI Student Advisor</div>
+        <div class="chat-sub">Ask anything about the selected student</div>
+      </div>
+      <div class="chat-live-dot" id="chat-dot"></div>
+    </div>
+
+    <div class="no-student-chat" id="no-student-chat">
+      <div class="empty-icon">💬</div>
+      <div class="empty-title">No Student Selected</div>
+      <div class="empty-sub">Load a student first to start an AI-assisted advisory session.</div>
+    </div>
+
+    <div class="chat-body" id="chat-body" style="display:none">
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="suggestions" id="suggestions" style="display:none">
+        <button class="chip" onclick="sendChip(this)">What are the main issues?</button>
+        <button class="chip" onclick="sendChip(this)">Summarize academic performance</button>
+        <button class="chip" onclick="sendChip(this)">Payment status details</button>
+        <button class="chip" onclick="sendChip(this)">Advise action plan</button>
+      </div>
+      <div class="chat-input-area">
+        <div class="input-row">
+          <textarea id="chat-input" class="chat-input" placeholder="Ask about this student..." rows="1"></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMsg()">↑</button>
+        </div>
+        <div class="input-hint">Gemini 2.5 Flash · Data scoped to selected student only</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ================================================================
+//  STUDENT DATA — All CSVs merged into session memory
+// ================================================================
+const RAW_SUMMARY = [
+  {id:"242-15-316",name:"Mst. Jerin Binta Jaman",mobile:"016******01",cgpa:2,courseTaken:19.5,completedCredit:9,mentoringCount:0,expireDate:"2028-06-30",totalPayable:131300,totalPaid:131100,dueAmount:200,fatherName:"Md. Ferdous Jaman",fatherMobile:"013******01",motherName:"Mst. Misee Akter",motherMobile:"017******01"},
+  {id:"242-15-317",name:"Nusrat Jahan Mona",mobile:"016******02",cgpa:3.34,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434843.01,dueAmount:32024.99,fatherName:"Md. Hanif",fatherMobile:"013******02",motherName:"Parvin Akter",motherMobile:"017******02"},
+  {id:"242-15-318",name:"Sabiha Israt Mahi",mobile:"016******03",cgpa:2.65,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417320,dueAmount:0,fatherName:"Shahidul Islam",fatherMobile:"013******03",motherName:"Kamrun Nahar",motherMobile:"017******03"},
+  {id:"242-15-319",name:"Mollah Ishtiaq Ahmed Amim",mobile:"016******04",cgpa:3.22,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:433976,dueAmount:32892,fatherName:"Mollah Tauhidul Islam",fatherMobile:"013******04",motherName:"Munzila Akter Shila",motherMobile:"017******04"},
+  {id:"242-15-320",name:"Moumita Reya Mondol",mobile:"016******05",cgpa:3.42,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434877,dueAmount:31991,fatherName:"Moses Mondol Rana",fatherMobile:"013******05",motherName:"Dolly Baroi",motherMobile:"017******05"},
+  {id:"242-15-321",name:"Smita Tethi Hembrom",mobile:"016******06",cgpa:3.59,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:424364,dueAmount:42504,fatherName:"Newton Babloo Hembrom",fatherMobile:"013******06",motherName:"Milita Membrom",motherMobile:"017******06"},
+  {id:"242-15-322",name:"Samiya Akter",mobile:"016******07",cgpa:3.28,courseTaken:64.5,completedCredit:61.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417387,dueAmount:0,fatherName:"Md. Shaidul Islam",fatherMobile:"013******07",motherName:"Moni Islam",motherMobile:"017******07"},
+  {id:"242-15-323",name:"Samiul Hoque Iram",mobile:"016******08",cgpa:2.48,courseTaken:34.5,completedCredit:16.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:210167,totalPaid:166400,dueAmount:43767,fatherName:"Md. Rezaul Hoque",fatherMobile:"013******08",motherName:"Shabiha Nasrin",motherMobile:"017******08"},
+  {id:"242-15-324",name:"Maimona Islam",mobile:"016******09",cgpa:3.84,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:438155,dueAmount:28713,fatherName:"Md Sohel Bhuya",fatherMobile:"013******09",motherName:"Marjina Begum",motherMobile:"017******09"},
+  {id:"242-15-326",name:"Ashish Saha",mobile:"016******11",cgpa:3.17,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417368,dueAmount:0,fatherName:"Dilip Saha",fatherMobile:"013******11",motherName:"Shraboni Saha",motherMobile:"017******11"},
+  {id:"242-15-327",name:"Sakib Hasan Heemel",mobile:"016******12",cgpa:3.33,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434849,dueAmount:32019,fatherName:"Md. Helal Uddin",fatherMobile:"013******12",motherName:"Shahnaz Akter Mukta",motherMobile:"017******12"},
+  {id:"242-15-328",name:"Mst. Alfa Yesmin",mobile:"016******13",cgpa:2.77,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:424362,dueAmount:42506,fatherName:"Md. Wahidur Rahman",fatherMobile:"013******13",motherName:"Mst. Sabrin Khatun",motherMobile:"017******13"},
+  {id:"242-15-329",name:"Md. Naim Mahomudul Islam",mobile:"016******14",cgpa:2.88,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:431352,dueAmount:35516,fatherName:"Md. Maidul Islam",fatherMobile:"013******14",motherName:"Mst. Lovely Begum",motherMobile:"017******14"},
+  {id:"242-15-330",name:"Md. Tanjimul Islam",mobile:"016******15",cgpa:3.88,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434843,dueAmount:32025,fatherName:"Sk. Md. Zahidul Islam",fatherMobile:"013******15",motherName:"Tanjila Jahan",motherMobile:"017******15"},
+  {id:"242-15-331",name:"Towhid Omar Rupok",mobile:"016******16",cgpa:2.98,courseTaken:64.5,completedCredit:55.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:412585,dueAmount:0,fatherName:"Md. Omar Faruk",fatherMobile:"013******16",motherName:"Rashida Begum",motherMobile:"017******16"},
+  {id:"242-15-332",name:"Afsana Akter Tusa",mobile:"016******17",cgpa:3.84,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:431351,dueAmount:35517,fatherName:"SHAHIDUL HAQUE",fatherMobile:"013******17",motherName:"SALMA KHATUN",motherMobile:"017******17"},
+  {id:"242-15-333",name:"Sharia Nawshin",mobile:"016******18",cgpa:3.12,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434643,dueAmount:32225,fatherName:"Mohammad Sharif Uddin",fatherMobile:"013******18",motherName:"Nasrin Akter",motherMobile:"017******18"},
+  {id:"242-15-334",name:"Fairuz Homaira",mobile:"016******19",cgpa:3.06,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:424391,dueAmount:42477,fatherName:"Muhammad Aminul Islam",fatherMobile:"013******19",motherName:"Fatema Begum",motherMobile:"017******19"},
+  {id:"242-15-335",name:"Pronway Prosoon Mitra",mobile:"016******20",cgpa:3.87,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:438341,dueAmount:28527,fatherName:"Shebendra Chandra Mistry",fatherMobile:"013******20",motherName:"Banani Suter",motherMobile:"017******20"},
+  {id:"242-15-336",name:"Faysal Ahmed Adnan",mobile:"016******21",cgpa:3.21,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417368,dueAmount:0,fatherName:"Md. Akbar Ali",fatherMobile:"013******21",motherName:"Nargish Akter",motherMobile:"017******21"},
+  {id:"242-15-337",name:"Md. Rashed Al Deepto",mobile:"016******22",cgpa:0,courseTaken:31.5,completedCredit:0,mentoringCount:0,expireDate:"2028-06-30",totalPayable:197567,totalPaid:166187,dueAmount:31380,fatherName:"Md. Hafizur Rahman",fatherMobile:"013******22",motherName:"Mst. Rashida Khatun",motherMobile:"017******22"},
+  {id:"242-15-338",name:"Meftahul Jannat Mim",mobile:"016******23",cgpa:2.63,courseTaken:66,completedCredit:57,mentoringCount:0,expireDate:"2028-06-30",totalPayable:388901,totalPaid:424001,dueAmount:0,fatherName:"MD. NAZRUL ISLAM",fatherMobile:"013******23",motherName:"MST. ISRAT JAHAN SHILPI",motherMobile:"017******23"},
+  {id:"242-15-339",name:"M.M.S. Seum",mobile:"016******24",cgpa:3.26,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:454323,dueAmount:0,fatherName:"Md. Sarwarjan Molla",fatherMobile:"013******24",motherName:"Rozina Begum",motherMobile:"017******24"},
+  {id:"242-15-340",name:"Sourav Kumar Das Bishal",mobile:"016******25",cgpa:3.59,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:452318,dueAmount:14550,fatherName:"Bidhan Kumar Das",fatherMobile:"013******25",motherName:"Anima Rani Datta",motherMobile:"017******25"},
+  {id:"242-15-341",name:"Jinat Farzana Bristy",mobile:"016******26",cgpa:2.96,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:424358.01,dueAmount:42509.99,fatherName:"Md. Rofiqul Islam Babu",fatherMobile:"013******26",motherName:"Most. Beauty Khatun",motherMobile:"017******26"},
+  {id:"242-15-342",name:"Sumaiya Tabassum Saiba",mobile:"016******27",cgpa:2.9,courseTaken:64.5,completedCredit:61.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:452321,dueAmount:14547,fatherName:"Md. Anwar Kamal",fatherMobile:"013******27",motherName:"Shamima Farzana",motherMobile:"017******27"},
+  {id:"242-15-343",name:"Rohit Saha Prapto",mobile:"016******28",cgpa:3.5,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:431358,dueAmount:35510,fatherName:"Roghunath Saha",fatherMobile:"013******28",motherName:"Tulsi Rani Saha",motherMobile:"017******28"},
+  {id:"242-15-344",name:"Afif Hossain",mobile:"016******29",cgpa:3.8,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:431413,dueAmount:35455,fatherName:"Md Alamgir Hossain",fatherMobile:"013******29",motherName:"Hurain Akter",motherMobile:"017******29"},
+  {id:"242-15-345",name:"M. M. Tariqur Rahman Rafi",mobile:"016******30",cgpa:2.44,courseTaken:64.5,completedCredit:54,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417180,dueAmount:0,fatherName:"Md. Abu Nashar Molla",fatherMobile:"013******30",motherName:"Arifa Sultana",motherMobile:"017******30"},
+  {id:"242-15-346",name:"Md. Nuruzzaman",mobile:"016******31",cgpa:3.84,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434776,dueAmount:32092,fatherName:"Md. Tofajjol Hossain",fatherMobile:"013******31",motherName:"Shilpi Akter",motherMobile:"017******31"},
+  {id:"242-15-347",name:"Shahariar Kabir Rohan",mobile:"016******32",cgpa:2.77,courseTaken:69,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:406301,totalPaid:441391,dueAmount:0,fatherName:"Md. Elias Hossain",fatherMobile:"013******32",motherName:"Shahanaz Parvin",motherMobile:"017******32"},
+  {id:"242-15-348",name:"Dristy Saha",mobile:"016******33",cgpa:3.62,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434645.01,dueAmount:32222.99,fatherName:"Dipak Kumar Saha",fatherMobile:"013******33",motherName:"Sadhona Rani Saha",motherMobile:"017******33"},
+  {id:"242-15-349",name:"Md. Tahmid Hasan",mobile:"016******34",cgpa:3.59,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417401,dueAmount:0,fatherName:"Md. Abdus Sultan",fatherMobile:"013******34",motherName:"Shorifa Afroza",motherMobile:"017******34"},
+  {id:"242-15-350",name:"Mir Samiul Haque",mobile:"016******35",cgpa:3.13,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:431350,dueAmount:35518,fatherName:"Mir Rafiqul Haque",fatherMobile:"013******35",motherName:"Bilkis Parvin",motherMobile:"017******35"},
+  {id:"242-15-351",name:"Fatema Jannat",mobile:"016******36",cgpa:3.38,courseTaken:43.5,completedCredit:43.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:272834,totalPaid:306232,dueAmount:0,fatherName:"Md. Jaynul Abedin",fatherMobile:"013******36",motherName:"Mirza Rokhsana",motherMobile:"017******36"},
+  {id:"242-15-352",name:"Labanya Biswas",mobile:"016******37",cgpa:3.46,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:435439,dueAmount:31429,fatherName:"Apurba Lal Biswas",fatherMobile:"013******37",motherName:"Dipti Rani Mazumder",motherMobile:"017******37"},
+  {id:"242-15-353",name:"Rakibul Islam Sifat",mobile:"016******38",cgpa:2.85,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417289,dueAmount:0,fatherName:"Md.Saiful Islam",fatherMobile:"013******38",motherName:"Mst.ferdous Akter",motherMobile:"017******38"},
+  {id:"242-15-354",name:"Samsil Arefin Oyan",mobile:"016******39",cgpa:2.91,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417164,dueAmount:0,fatherName:"Md. Saiful Islam",fatherMobile:"013******39",motherName:"Sharmin Islam",motherMobile:"017******39"},
+  {id:"242-15-355",name:"Md. Iftekhar Alam Asif",mobile:"016******40",cgpa:3.66,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434847,dueAmount:32021,fatherName:"NOOR E ALAM",fatherMobile:"013******40",motherName:"BILKISS BEGUM",motherMobile:"017******40"},
+  {id:"242-15-356",name:"Zidne Hasan",mobile:"016******41",cgpa:3.3,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434876,dueAmount:31992,fatherName:"Md.Motalib Hossain",fatherMobile:"013******41",motherName:"Fatema Begum",motherMobile:"017******41"},
+  {id:"242-15-357",name:"Tanvir Rahman Shawon",mobile:"016******42",cgpa:3.7,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2030-06-30",totalPayable:466868,totalPaid:452617,dueAmount:14251,fatherName:"Md. Taibur Rahman",fatherMobile:"013******42",motherName:"Shuly Akteri",motherMobile:"017******42"},
+  {id:"242-15-358",name:"Md. Sami",mobile:"016******43",cgpa:2.33,courseTaken:64.5,completedCredit:52.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:416213,dueAmount:0,fatherName:"Md.Shahidul Islam",fatherMobile:"013******43",motherName:"Mst.Shammi Aktar",motherMobile:"017******43"},
+  {id:"242-15-359",name:"Subrina Bintee Zaman Jebin",mobile:"016******44",cgpa:3.03,courseTaken:67.5,completedCredit:51,mentoringCount:0,expireDate:"2028-06-30",totalPayable:397601,totalPaid:432680,dueAmount:0,fatherName:"Md. Matiwzzaman",fatherMobile:"013******44",motherName:"Afroza Begum",motherMobile:"017******44"},
+  {id:"242-15-360",name:"Samee Islam",mobile:"016******45",cgpa:3.37,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417401,dueAmount:0,fatherName:"Shamsul Islam",fatherMobile:"013******45",motherName:"Rahima Parvin",motherMobile:"017******45"},
+  {id:"242-15-361",name:"Md. Fahim Shariar",mobile:"016******46",cgpa:3.76,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434843.01,dueAmount:32024.99,fatherName:"Md.Aktaruzzaman Molla",fatherMobile:"013******46",motherName:"Mst.Mazeda Akter",motherMobile:"017******46"},
+  {id:"242-15-362",name:"Rakibul Islam",mobile:"016******47",cgpa:3.22,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:438346,dueAmount:28522,fatherName:"Md. Mohsin",fatherMobile:"013******47",motherName:"Tania Begum",motherMobile:"017******47"},
+  {id:"242-15-363",name:"Md. Faysal Mahdi Istaben",mobile:"016******48",cgpa:3.12,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417409.01,dueAmount:0,fatherName:"Md. Golam Mowla",fatherMobile:"013******48",motherName:"Khaja Nusrat Mastury",motherMobile:"017******48"},
+  {id:"242-15-364",name:"Md. Jesun Mahmud",mobile:"016******49",cgpa:2.66,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417287,dueAmount:0,fatherName:"Md. Abu Jafar",fatherMobile:"013******49",motherName:"Mst. Jakia Khatun",motherMobile:"017******49"},
+  {id:"242-15-365",name:"Mohammad Atikul Hasan Mridul",mobile:"016******50",cgpa:3.79,courseTaken:64.5,completedCredit:64.5,mentoringCount:1,expireDate:"2028-06-30",totalPayable:382301,totalPaid:417425,dueAmount:0,fatherName:"Md. Masum Hossen",fatherMobile:"013******50",motherName:"Mst. Aklima Akter",motherMobile:"017******50"},
+  {id:"242-15-366",name:"S. M. Nadim Ahomed",mobile:"016******51",cgpa:2.06,courseTaken:64.5,completedCredit:36,mentoringCount:0,expireDate:"2028-06-30",totalPayable:387101,totalPaid:421476,dueAmount:0,fatherName:"S.M. Atiqur Rahman",fatherMobile:"013******51",motherName:"Rasida Bano",motherMobile:"017******51"},
+  {id:"242-15-367",name:"S. M. Udoy Hasan",mobile:"016******52",cgpa:2.39,courseTaken:67.5,completedCredit:52.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:397601,totalPaid:432723,dueAmount:0,fatherName:"Md. Mostafizur Rahman Sarder",fatherMobile:"013******52",motherName:"Mst. Fairy Khanum",motherMobile:"017******52"},
+  {id:"242-15-368",name:"Tanjiur Rahman Twha",mobile:"016******53",cgpa:2.57,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:430880,dueAmount:35988,fatherName:"Md. Masudur Rahman",fatherMobile:"013******53",motherName:"Murshida Begum",motherMobile:"017******53"},
+  {id:"242-15-369",name:"Susmita Sarker",mobile:"016******54",cgpa:3.72,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466918,totalPaid:438350,dueAmount:28568,fatherName:"Gopinath Sarker",fatherMobile:"013******54",motherName:"Shanzita Rani Sarker",motherMobile:"017******54"},
+  {id:"242-15-370",name:"Md. Rokebul Islam Akash",mobile:"016******55",cgpa:3.62,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434868,dueAmount:32000,fatherName:"Md. Aminul Islam",fatherMobile:"013******55",motherName:"Mst. China Khatun",motherMobile:"017******55"},
+  {id:"242-15-371",name:"Khandaker Sultanul Arefin Noory Kishor",mobile:"016******56",cgpa:2.93,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:382301,totalPaid:418517,dueAmount:0,fatherName:"Khandaker Jahangir Noory",fatherMobile:"013******56",motherName:"Mrs.Afia Khanom",motherMobile:"017******56"},
+  {id:"242-15-372",name:"Junayed Ahmed",mobile:"016******57",cgpa:3.44,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434853,dueAmount:32015,fatherName:"Md.Zobear Ahmed Sikder",fatherMobile:"013******57",motherName:"Farjana Akter",motherMobile:"017******57"},
+  {id:"242-15-373",name:"Ayesha Siddika Asha",mobile:"016******58",cgpa:3.29,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434853,dueAmount:32015,fatherName:"Md Akkaj Ali",fatherMobile:"013******58",motherName:"Mst Hasina Begum",motherMobile:"017******58"},
+  {id:"242-15-374",name:"Imran Hasan",mobile:"016******59",cgpa:2.71,courseTaken:63,completedCredit:49.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:458168,totalPaid:422514,dueAmount:35654,fatherName:"GOLAM MOSTOFA",fatherMobile:"013******59",motherName:"MALA BEGUM",motherMobile:"017******59"},
+  {id:"242-15-375",name:"Md. Shehzad Ahsan",mobile:"016******60",cgpa:3.47,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434843,dueAmount:32025,fatherName:"Md. Ahsan Ullah",fatherMobile:"013******60",motherName:"Shafioun Nessa",motherMobile:"017******60"},
+  {id:"242-15-376",name:"Tasnia Tabassum Nabila",mobile:"016******61",cgpa:3.62,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:452118,dueAmount:14750,fatherName:"Md.Kaoser",fatherMobile:"013******61",motherName:"Hasi Akter",motherMobile:"017******61"},
+  {id:"242-15-377",name:"Rahul Sarkar Shawon",mobile:"016******62",cgpa:3.27,courseTaken:64.5,completedCredit:64.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:466868,totalPaid:434843,dueAmount:32025,fatherName:"Khokan Sarkar",fatherMobile:"013******62",motherName:"Nazma Tarafder",motherMobile:"017******62"},
+  {id:"242-15-378",name:"Md. Minnatul Islam",mobile:"016******63",cgpa:2.4,courseTaken:61.5,completedCredit:22.5,mentoringCount:0,expireDate:"2028-06-30",totalPayable:364901,totalPaid:302801,dueAmount:62100,fatherName:"Md. Nazmul Islam",fatherMobile:"013******63",motherName:"Mst. Moslamina Khatun",motherMobile:"017******63"},
+];
+
+const SGPA_DATA = {
+  "242-15-316":{},
+  "242-15-317":{"Spring 2025":3.58,"Summer 2025":3.2},
+  "242-15-318":{"Spring 2025":2.5,"Summer 2025":2.62},
+  "242-15-319":{"Spring 2025":3.5,"Summer 2025":3.2},
+  "242-15-320":{"Spring 2025":3.48,"Summer 2025":3.05},
+  "242-15-321":{"Spring 2025":3.55,"Summer 2025":3.35},
+  "242-15-322":{"Spring 2025":3.08,"Summer 2025":3.52},
+  "242-15-323":{},
+  "242-15-324":{"Spring 2025":3.83,"Summer 2025":3.83},
+  "242-15-326":{"Spring 2025":2.85,"Summer 2025":2.85},
+  "242-15-327":{"Spring 2025":3.35,"Summer 2025":3.08},
+  "242-15-328":{"Spring 2025":2.4,"Summer 2025":3.02},
+  "242-15-329":{"Spring 2025":2.62,"Summer 2025":2.77},
+  "242-15-330":{"Spring 2025":3.77,"Summer 2025":4},
+  "242-15-331":{"Spring 2025":2.81,"Summer 2025":2.5},
+  "242-15-332":{"Spring 2025":3.75,"Summer 2025":4},
+  "242-15-333":{"Spring 2025":3.02,"Summer 2025":2.7},
+  "242-15-334":{"Spring 2025":2.65,"Summer 2025":3.42},
+  "242-15-335":{"Spring 2025":3.7,"Summer 2025":3.9},
+  "242-15-336":{"Spring 2025":2.88,"Summer 2025":3.15},
+  "242-15-337":{},
+  "242-15-338":{"Spring 2025":2.75,"Summer 2025":2.35},
+  "242-15-339":{"Spring 2025":3.05,"Summer 2025":3.23},
+  "242-15-340":{"Spring 2025":3.52,"Summer 2025":3.48},
+  "242-15-341":{"Spring 2025":2.73,"Summer 2025":2.75},
+  "242-15-342":{"Spring 2025":2.8,"Summer 2025":2.56},
+  "242-15-343":{"Spring 2025":3.48,"Summer 2025":3.7},
+  "242-15-344":{"Spring 2025":3.9,"Summer 2025":3.77},
+  "242-15-345":{"Spring 2025":2.55,"Summer 2025":2.44},
+  "242-15-346":{"Spring 2025":3.6,"Summer 2025":4},
+  "242-15-347":{"Spring 2025":2.29,"Summer 2025":2.56},
+  "242-15-348":{"Spring 2025":3.58,"Summer 2025":3.75},
+  "242-15-349":{"Spring 2025":3.6,"Summer 2025":3.6},
+  "242-15-350":{"Spring 2025":3.27,"Summer 2025":3.12},
+  "242-15-351":{"Spring 2025":3.3},
+  "242-15-352":{"Spring 2025":3.6,"Summer 2025":3.48},
+  "242-15-353":{"Spring 2025":2.7,"Summer 2025":2.98},
+  "242-15-354":{"Spring 2025":3.05,"Summer 2025":2.88},
+  "242-15-355":{"Spring 2025":3.73,"Summer 2025":3.9},
+  "242-15-356":{"Spring 2025":3.27,"Summer 2025":3.5},
+  "242-15-357":{"Spring 2025":3.85,"Summer 2025":3.55},
+  "242-15-358":{"Spring 2025":2.25,"Summer 2025":2.39},
+  "242-15-359":{"Spring 2025":2.88,"Summer 2025":2.79},
+  "242-15-360":{"Spring 2025":3.38,"Summer 2025":3.12},
+  "242-15-361":{"Spring 2025":3.88,"Summer 2025":3.62},
+  "242-15-362":{"Spring 2025":3.05,"Summer 2025":3.38},
+  "242-15-363":{"Spring 2025":3.42,"Summer 2025":2.8},
+  "242-15-364":{"Spring 2025":2.77,"Summer 2025":2.77},
+  "242-15-365":{"Spring 2025":3.75,"Summer 2025":3.88},
+  "242-15-366":{"Spring 2025":2.25,"Summer 2025":2},
+  "242-15-367":{"Spring 2025":2.19,"Summer 2025":2.33},
+  "242-15-368":{"Spring 2025":2.58,"Summer 2025":2.3},
+  "242-15-369":{"Spring 2025":3.75,"Summer 2025":3.92},
+  "242-15-370":{"Spring 2025":3.8,"Summer 2025":3.6},
+  "242-15-371":{"Spring 2025":2.55,"Summer 2025":3},
+  "242-15-372":{"Spring 2025":3.58,"Summer 2025":3.23},
+  "242-15-373":{"Spring 2025":3.25,"Summer 2025":3.15},
+  "242-15-374":{"Spring 2025":2.61,"Summer 2025":2.54},
+  "242-15-375":{"Spring 2025":3.52,"Summer 2025":3.3},
+  "242-15-376":{"Spring 2025":3.62,"Summer 2025":3.4},
+  "242-15-377":{"Spring 2025":3.2,"Summer 2025":2.9},
+  "242-15-378":{"Spring 2025":2.25,"Summer 2025":2.43},
+};
+
+const PAYMENT_STATUS = {
+  "242-15-316":"Due","242-15-317":"High Due","242-15-318":"Clear","242-15-319":"High Due",
+  "242-15-320":"High Due","242-15-321":"High Due","242-15-322":"Clear","242-15-323":"High Due",
+  "242-15-324":"Due","242-15-326":"Clear","242-15-327":"High Due","242-15-328":"High Due",
+  "242-15-329":"High Due","242-15-330":"High Due","242-15-331":"Clear","242-15-332":"High Due",
+  "242-15-333":"High Due","242-15-334":"High Due","242-15-335":"Due","242-15-336":"Clear",
+  "242-15-337":"High Due","242-15-338":"Clear","242-15-339":"Clear","242-15-340":"Due",
+  "242-15-341":"High Due","242-15-342":"Due","242-15-343":"High Due","242-15-344":"High Due",
+  "242-15-345":"Clear","242-15-346":"High Due","242-15-347":"Clear","242-15-348":"High Due",
+  "242-15-349":"Clear","242-15-350":"High Due","242-15-351":"Clear","242-15-352":"High Due",
+  "242-15-353":"Clear","242-15-354":"Clear","242-15-355":"High Due","242-15-356":"High Due",
+  "242-15-357":"Due","242-15-358":"Clear","242-15-359":"Clear","242-15-360":"Clear",
+  "242-15-361":"High Due","242-15-362":"Due","242-15-363":"Clear","242-15-364":"Clear",
+  "242-15-365":"Clear","242-15-366":"Clear","242-15-367":"Clear","242-15-368":"High Due",
+  "242-15-369":"Due","242-15-370":"High Due","242-15-371":"Clear","242-15-372":"High Due",
+  "242-15-373":"High Due","242-15-374":"High Due","242-15-375":"High Due","242-15-376":"Due",
+  "242-15-377":"High Due","242-15-378":"High Due",
+};
+
+const ISSUES = {
+  "242-15-316":["Low CGPA (2.0)","Incomplete credits (9.0/19.5)","No mentoring session"],
+  "242-15-317":["Due: 32,025 BDT","No mentoring session"],
+  "242-15-318":["No mentoring session"],
+  "242-15-319":["Due: 32,892 BDT","No mentoring session"],
+  "242-15-320":["Due: 31,991 BDT","No mentoring session"],
+  "242-15-321":["Due: 42,504 BDT","No mentoring session"],
+  "242-15-322":["Incomplete credits (61.5/64.5)","No mentoring session"],
+  "242-15-323":["Low CGPA (2.48)","Due: 43,767 BDT","Incomplete credits (16.5/34.5)","No mentoring session"],
+  "242-15-324":["No mentoring session"],
+  "242-15-326":["No mentoring session"],
+  "242-15-327":["Due: 32,019 BDT","No mentoring session"],
+  "242-15-328":["Due: 42,506 BDT","No mentoring session"],
+  "242-15-329":["Due: 35,516 BDT","No mentoring session"],
+  "242-15-330":["Due: 32,025 BDT","No mentoring session"],
+  "242-15-331":["Incomplete credits (55.5/64.5)","No mentoring session"],
+  "242-15-332":["Due: 35,517 BDT","No mentoring session"],
+  "242-15-333":["Due: 32,225 BDT","No mentoring session"],
+  "242-15-334":["Due: 42,477 BDT","No mentoring session"],
+  "242-15-335":["No mentoring session"],
+  "242-15-336":["No mentoring session"],
+  "242-15-337":["Low CGPA (0.0)","Due: 31,380 BDT","Incomplete credits (0.0/31.5)","No mentoring session"],
+  "242-15-338":["Incomplete credits (57.0/66.0)","No mentoring session"],
+  "242-15-339":["No mentoring session"],
+  "242-15-340":["No mentoring session"],
+  "242-15-341":["Due: 42,510 BDT","No mentoring session"],
+  "242-15-342":["Incomplete credits (61.5/64.5)","No mentoring session"],
+  "242-15-343":["Due: 35,510 BDT","No mentoring session"],
+  "242-15-344":["Due: 35,455 BDT","No mentoring session"],
+  "242-15-345":["Low CGPA (2.44)","Incomplete credits (54.0/64.5)","No mentoring session"],
+  "242-15-346":["Due: 32,092 BDT","No mentoring session"],
+  "242-15-347":["Incomplete credits (64.5/69.0)","No mentoring session"],
+  "242-15-348":["Due: 32,223 BDT","No mentoring session"],
+  "242-15-349":["No mentoring session"],
+  "242-15-350":["Due: 35,518 BDT","No mentoring session"],
+  "242-15-351":["No mentoring session"],
+  "242-15-352":["Due: 31,429 BDT","No mentoring session"],
+  "242-15-353":["No mentoring session"],
+  "242-15-354":["No mentoring session"],
+  "242-15-355":["Due: 32,021 BDT","No mentoring session"],
+  "242-15-356":["Due: 31,992 BDT","No mentoring session"],
+  "242-15-357":["No mentoring session"],
+  "242-15-358":["Low CGPA (2.33)","Incomplete credits (52.5/64.5)","No mentoring session"],
+  "242-15-359":["Incomplete credits (51.0/67.5)","No mentoring session"],
+  "242-15-360":["No mentoring session"],
+  "242-15-361":["Due: 32,025 BDT","No mentoring session"],
+  "242-15-362":["No mentoring session"],
+  "242-15-363":["No mentoring session"],
+  "242-15-364":["No mentoring session"],
+  "242-15-366":["Low CGPA (2.06)","Incomplete credits (36.0/64.5)","No mentoring session"],
+  "242-15-367":["Low CGPA (2.39)","Incomplete credits (52.5/67.5)","No mentoring session"],
+  "242-15-368":["Due: 35,988 BDT","No mentoring session"],
+  "242-15-369":["No mentoring session"],
+  "242-15-370":["Due: 32,000 BDT","No mentoring session"],
+  "242-15-371":["No mentoring session"],
+  "242-15-372":["Due: 32,015 BDT","No mentoring session"],
+  "242-15-373":["Due: 32,015 BDT","No mentoring session"],
+  "242-15-374":["Due: 35,654 BDT","Incomplete credits (49.5/63.0)","No mentoring session"],
+  "242-15-375":["Due: 32,025 BDT","No mentoring session"],
+  "242-15-376":["No mentoring session"],
+  "242-15-377":["Due: 32,025 BDT","No mentoring session"],
+  "242-15-378":["Low CGPA (2.4)","Due: 62,100 BDT","Incomplete credits (22.5/61.5)","No mentoring session"],
+};
+
+// Semester results — subset stored (full CSV has 710+ rows; storing key records for AI context)
+const SEMESTER_RESULTS = {
+  "242-15-316":[],
+  "242-15-317":[
+    {sem:"Spring 2025",code:"CSE123",title:"Data Structure",credit:3,grade:"A",gp:3.75,total:75},
+    {sem:"Spring 2025",code:"CSE124",title:"Data Structure Lab",credit:1.5,grade:"B+",gp:3.25,total:68},
+    {sem:"Spring 2025",code:"ENG102",title:"Writing and Comprehension",credit:3,grade:"A-",gp:3.5,total:70},
+    {sem:"Spring 2025",code:"MAT102",title:"Mathematics-II",credit:3,grade:"A",gp:3.75,total:75},
+    {sem:"Spring 2025",code:"PHY102",title:"Physics - II",credit:3,grade:"A",gp:3.75,total:77},
+    {sem:"Spring 2025",code:"PHY103",title:"Physics - II Lab",credit:1.5,grade:"B",gp:3,total:63},
+    {sem:"Summer 2025",code:"MAT211",title:"Engineering Mathematics",credit:3,grade:"B+",gp:3.25,total:67},
+    {sem:"Summer 2025",code:"CSE213",title:"Algorithms",credit:3,grade:"A",gp:3.75,total:75},
+    {sem:"Summer 2025",code:"CSE121",title:"Electrical Circuits",credit:3,grade:"B-",gp:2.75,total:56},
+    {sem:"Summer 2025",code:"CSE212",title:"Discrete Mathematics",credit:3,grade:"B+",gp:3.25,total:67},
+  ],
+  "242-15-318":[
+    {sem:"Spring 2025",code:"CSE123",title:"Data Structure",credit:3,grade:"C",gp:2.25,total:46},
+    {sem:"Spring 2025",code:"MAT102",title:"Mathematics-II",credit:3,grade:"D",gp:2,total:41},
+    {sem:"Spring 2025",code:"PHY102",title:"Physics - II",credit:3,grade:"C+",gp:2.5,total:52},
+    {sem:"Summer 2025",code:"MAT211",title:"Engineering Mathematics",credit:3,grade:"C",gp:2.25,total:45},
+    {sem:"Summer 2025",code:"CSE213",title:"Algorithms",credit:3,grade:"B-",gp:2.75,total:57},
+    {sem:"Summer 2025",code:"CSE121",title:"Electrical Circuits",credit:3,grade:"C",gp:2.25,total:45},
+  ],
+  "242-15-323":[
+    {sem:"Spring 2025",code:"CSE123",title:"Data Structure",credit:3,grade:"I",gp:0,total:2,absent:"Yes"},
+    {sem:"Spring 2025",code:"ENG102",title:"Writing and Comprehension",credit:3,grade:"I",gp:0,total:8,absent:"Yes"},
+    {sem:"Spring 2025",code:"MAT102",title:"Mathematics-II",credit:3,grade:"I",gp:0,total:3,absent:"Yes"},
+    {sem:"Spring 2025",code:"PHY102",title:"Physics - II",credit:3,grade:"I",gp:0,total:2,absent:"Yes"},
+  ],
+  "242-15-337":[],
+  "242-15-366":[
+    {sem:"Spring 2025",code:"CSE123",title:"Data Structure",credit:3,grade:"F",gp:0,total:26},
+    {sem:"Spring 2025",code:"MAT102",title:"Mathematics-II",credit:3,grade:"F",gp:0,total:33},
+    {sem:"Spring 2025",code:"PHY102",title:"Physics - II",credit:3,grade:"F",gp:0,total:23},
+    {sem:"Summer 2025",code:"CSE121",title:"Electrical Circuits",credit:3,grade:"F",gp:0,total:17},
+    {sem:"Summer 2025",code:"CSE122",title:"Electrical Circuits Lab",credit:1.5,grade:"F",gp:0,total:29},
+  ],
+};
+
+// Build STUDENTS lookup
+const STUDENTS = {};
+RAW_SUMMARY.forEach(s => {
+  STUDENTS[s.id] = {
+    ...s,
+    paymentStatus: PAYMENT_STATUS[s.id] || "Clear",
+    sgpa: SGPA_DATA[s.id] || {},
+    issues: ISSUES[s.id] || [],
+    semesters: SEMESTER_RESULTS[s.id] || [],
+  };
+});
+
+// ================================================================
+//  SESSION STATE
+// ================================================================
+let currentStudent = null;
+let chatHistory = [];
+
+// ================================================================
+//  INIT — Build student list
+// ================================================================
+function initStudentList() {
+  const list = document.getElementById('student-list');
+  list.innerHTML = RAW_SUMMARY.map(s => {
+    const cgpaColor = s.cgpa >= 3.5 ? 'var(--green)' : s.cgpa >= 2.5 ? 'var(--warn)' : 'var(--danger)';
+    const initials = s.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    return `<div class="student-list-item" id="sli-${s.id}" onclick="quickLoad('${s.id}')">
+      <div class="sli-avatar">${initials}</div>
+      <div class="sli-info">
+        <div class="sli-name">${s.name}</div>
+        <div class="sli-id">${s.id}</div>
+      </div>
+      <div class="sli-cgpa" style="color:${cgpaColor}">${s.cgpa.toFixed(2)}</div>
+    </div>`;
+  }).join('');
+}
+
+function initials(name) {
+  return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+
+// ================================================================
+//  STUDENT LOAD
+// ================================================================
+function quickLoad(id) {
+  document.getElementById('sid-input').value = id;
+  loadStudent();
+}
+
+function loadStudent() {
+  const raw = document.getElementById('sid-input').value.trim().toUpperCase();
+  // Try exact match or partial
+  let s = STUDENTS[raw];
+  if (!s) {
+    // Try searching by name fragment
+    const found = RAW_SUMMARY.find(r => r.name.toLowerCase().includes(raw.toLowerCase()) || r.id === raw);
+    if (found) s = STUDENTS[found.id];
+  }
+  if (!s) { alert('Student not found. Try a valid ID like 242-15-317'); return; }
+  
+  // Deactivate previous
+  document.querySelectorAll('.student-list-item').forEach(el => el.classList.remove('active'));
+  const sli = document.getElementById('sli-' + s.id);
+  if (sli) { sli.classList.add('active'); sli.scrollIntoView({block:'nearest'}); }
+
+  currentStudent = s;
+  chatHistory = [];
+  renderProfile(s);
+  enableChat(s);
+}
+
+// ================================================================
+//  RENDER PROFILE
+// ================================================================
+function renderProfile(s) {
+  document.getElementById('empty-left').style.display = 'none';
+  document.getElementById('student-content').style.display = 'block';
+
+  // Avatar & name
+  document.getElementById('s-avatar').textContent = initials(s.name);
+  document.getElementById('s-name').textContent = s.name;
+  document.getElementById('s-id').textContent = s.id;
+  document.getElementById('s-mobile').textContent = '📞 ' + s.mobile + ' · Exp: ' + s.expireDate;
+
+  // Status badge
+  const sb = document.getElementById('s-status-badge');
+  const cls = s.paymentStatus === 'Clear' ? 'status-clear' : s.paymentStatus === 'Due' ? 'status-due' : 'status-highdue';
+  sb.innerHTML = `<span class="status-badge ${cls}">${s.paymentStatus}</span>`;
+
+  // Stats
+  const cgpa = document.getElementById('s-cgpa');
+  cgpa.textContent = s.cgpa.toFixed(2);
+  cgpa.style.color = s.cgpa >= 3.5 ? 'var(--green)' : s.cgpa >= 2.5 ? 'var(--warn)' : 'var(--danger)';
+  document.getElementById('s-cgpa-sub').textContent = s.cgpa >= 3.5 ? 'Excellent' : s.cgpa >= 2.5 ? 'Average' : 'Needs Attention';
+  document.getElementById('s-credits').textContent = s.completedCredit;
+  document.getElementById('s-mentoring').textContent = s.mentoringCount;
+  
+  const dueEl = document.getElementById('s-due');
+  dueEl.textContent = s.dueAmount > 0 ? '৳ ' + s.dueAmount.toLocaleString() : '৳ 0';
+  dueEl.style.color = s.dueAmount === 0 ? 'var(--green)' : s.dueAmount > 10000 ? 'var(--danger)' : 'var(--warn)';
+  document.getElementById('s-due-sub').textContent = s.dueAmount === 0 ? 'All clear' : 'Outstanding';
+
+  // Issues
+  const issEl = document.getElementById('s-issues');
+  issEl.innerHTML = s.issues.length === 0
+    ? '<span class="issue-tag issue-ok">✓ No critical issues found</span>'
+    : s.issues.map(i => {
+        const c = i.includes('Low') || i.includes('Due:') ? 'issue-danger' : 'issue-warn';
+        return `<span class="issue-tag ${c}">${i}</span>`;
+      }).join('');
+
+  // SGPA trend
+  const trendEl = document.getElementById('s-sgpa-trend');
+  const sgpaEntries = Object.entries(s.sgpa);
+  if (sgpaEntries.length === 0) {
+    trendEl.innerHTML = '<span style="font-size:11px;color:var(--muted);">No SGPA data recorded</span>';
+  } else {
+    trendEl.innerHTML = sgpaEntries.map(([sem, val]) => {
+      const c = val >= 3.5 ? 'var(--green)' : val >= 2.5 ? 'var(--warn)' : 'var(--danger)';
+      const label = sem.replace(' 2025','').replace(' 2024','');
+      return `<div class="sgpa-point"><div class="sgpa-sem">${label}</div><div class="sgpa-val" style="color:${c}">${Number(val).toFixed(2)}</div></div>`;
+    }).join('');
+  }
+
+  // Payment bar
+  const pct = s.totalPayable > 0 ? Math.min(100, Math.round((s.totalPaid / s.totalPayable) * 100)) : 100;
+  const bar = document.getElementById('s-paybar');
+  bar.style.width = pct + '%';
+  bar.className = 'payment-bar-fill' + (pct < 90 ? ' danger' : pct < 100 ? ' partial' : '');
+  document.getElementById('s-payable').textContent = '৳ ' + s.totalPayable.toLocaleString();
+  document.getElementById('s-paid-label').textContent = 'Paid: ৳' + s.totalPaid.toLocaleString() + ' (' + pct + '%)';
+  document.getElementById('s-due-label').textContent = s.dueAmount > 0 ? 'Due: ৳' + s.dueAmount.toLocaleString() : '✓ Fully paid';
+
+  // Guardian
+  document.getElementById('s-guardian').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11px;">
+      <div>
+        <div style="color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;">Father</div>
+        <div style="font-weight:600;color:var(--text)">${s.fatherName}</div>
+        <div style="color:var(--accent);font-family:var(--mono)">${s.fatherMobile}</div>
+      </div>
+      <div>
+        <div style="color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;">Mother</div>
+        <div style="font-weight:600;color:var(--text)">${s.motherName}</div>
+        <div style="color:var(--accent);font-family:var(--mono)">${s.motherMobile}</div>
+      </div>
+    </div>`;
+
+  // Semester results table
+  const semWrap = document.getElementById('s-sem-table');
+  if (!s.semesters || s.semesters.length === 0) {
+    semWrap.innerHTML = '<div style="font-size:11px;color:var(--muted);padding:10px;">No detailed semester data available.</div>';
+  } else {
+    const grouped = {};
+    s.semesters.forEach(r => { if (!grouped[r.sem]) grouped[r.sem] = []; grouped[r.sem].push(r); });
+    let html = '';
+    Object.entries(grouped).forEach(([sem, rows]) => {
+      html += `<div style="font-size:11px;font-weight:700;color:var(--text2);padding:8px 0 4px;text-transform:uppercase;letter-spacing:0.05em;">${sem}</div>`;
+      html += `<table class="sem-table"><thead><tr><th>Code</th><th>Course</th><th>Cr</th><th>Total</th><th>Grade</th></tr></thead><tbody>`;
+      rows.forEach(r => {
+        const gc = r.gp >= 3.5 ? 'grade-a' : r.gp >= 3 ? 'grade-b' : r.gp >= 2 ? 'grade-c' : r.gp >= 1 ? 'grade-d' : 'grade-f';
+        const absentNote = r.absent ? ' ⚠' : '';
+        html += `<tr><td style="font-family:var(--mono)">${r.code}</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${r.title}</td><td>${r.credit}</td><td style="font-family:var(--mono)">${r.total}</td><td><span class="grade-badge ${gc}">${r.grade}${absentNote}</span></td></tr>`;
+      });
+      html += '</tbody></table>';
+    });
+    semWrap.innerHTML = html;
+  }
+
+  // Scroll middle panel to top
+  document.getElementById('middle-panel').scrollTop = 0;
+}
+
+// ================================================================
+//  CHAT
+// ================================================================
+function enableChat(s) {
+  document.getElementById('no-student-chat').style.display = 'none';
+  const body = document.getElementById('chat-body');
+  body.style.display = 'flex';
+  document.getElementById('chat-header-text').textContent = s.name.split(' ')[0] + ' · AI Advisor';
+  document.getElementById('chat-dot').classList.add('live');
+  document.getElementById('chat-messages').innerHTML = '<div class="msg-hint">Ask anything about this student\'s academic record</div>';
+  document.getElementById('suggestions').style.display = 'flex';
+}
+
+function sendChip(el) {
+  document.getElementById('chat-input').value = el.textContent;
+  el.closest('.suggestions').style.display = 'none';
+  sendMsg();
+}
+
+function buildSystemPrompt(s) {
+  const sgpaText = Object.entries(s.sgpa).map(([k,v])=>`${k}: ${v}`).join(', ') || 'No SGPA data';
+  const issueText = s.issues.length ? s.issues.join('; ') : 'None';
+  const semText = s.semesters.length
+    ? s.semesters.map(r=>`${r.sem} - ${r.code} ${r.title}: ${r.grade} (GP ${r.gp}, Total ${r.total})`).join('\n')
+    : 'No detailed course data available';
+
+  return `You are an expert Student Academic Advisor at Daffodil International University (DIU). Answer ONLY based on the student data below. Do not make up information.
+
+=== STUDENT PROFILE ===
+Name: ${s.name}
+ID: ${s.id}
+Mobile: ${s.mobile}
+Program Expire: ${s.expireDate}
+CGPA: ${s.cgpa}
+Course Taken: ${s.courseTaken} credits
+Completed Credits: ${s.completedCredit}
+Mentoring Sessions: ${s.mentoringCount}
+Father: ${s.fatherName} (${s.fatherMobile})
+Mother: ${s.motherName} (${s.motherMobile})
+
+=== PAYMENT ===
+Total Payable: ${s.totalPayable} BDT
+Total Paid: ${s.totalPaid} BDT
+Due Amount: ${s.dueAmount} BDT
+Payment Status: ${s.paymentStatus}
+
+=== SGPA TREND ===
+${sgpaText}
+
+=== CURRENT ISSUES ===
+${issueText}
+
+=== SEMESTER COURSE RESULTS ===
+${semText}
+
+=== COUNSELLING ===
+No counselling sessions recorded yet.
+
+Instructions:
+- Be concise, professional, and helpful.
+- Focus on academic advising: CGPA improvement, payment urgency, credit completion, mentoring.
+- Use BDT for currency. Reference the student by first name.
+- If asked something not in the data, say you don't have that information.
+- Keep responses under 200 words unless detailed breakdown is requested.`;
+}
+
+async function sendMsg() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || !currentStudent) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('send-btn').disabled = true;
+  const msgs = document.getElementById('chat-messages');
+
+  // User bubble
+  const userBubble = document.createElement('div');
+  userBubble.className = 'msg msg-user';
+  userBubble.textContent = text;
+  msgs.appendChild(userBubble);
+
+  // Typing
+  const typing = document.createElement('div');
+  typing.className = 'msg msg-ai typing-indicator';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  chatHistory.push({ role: "user", content: text });
+
+  try {
+    const res = await fetch("/.netlify/functions/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        systemPrompt: buildSystemPrompt(currentStudent),
+        messages: chatHistory,
+      }),
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    const reply = data.reply || "No response.";
+    chatHistory.push({ role: "assistant", content: reply });
+
+    typing.remove();
+    const aiBubble = document.createElement('div');
+    aiBubble.className = 'msg msg-ai';
+    aiBubble.textContent = reply;
+    msgs.appendChild(aiBubble);
+
+  } catch(e) {
+    typing.remove();
+    const errBubble = document.createElement('div');
+    errBubble.className = 'msg msg-ai';
+    errBubble.style.color = 'var(--danger)';
+    errBubble.textContent = '⚠ ' + e.message;
+    msgs.appendChild(errBubble);
+  }
+
+  msgs.scrollTop = msgs.scrollHeight;
+  document.getElementById('send-btn').disabled = false;
+  input.focus();
+}
+
+// ================================================================
+//  UI HELPERS
+// ================================================================
+function toggleSection(sectionId, arrowId) {
+  const section = document.getElementById(sectionId);
+  const arrow = document.getElementById(arrowId);
+  section.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+// Auto-resize textarea
+document.getElementById('chat-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// Enter to send (Shift+Enter for newline)
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+});
+
+// Enter to search
+document.getElementById('sid-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loadStudent();
+});
+
+// Live search filter
+document.getElementById('sid-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.student-list-item').forEach(el => {
+    const name = el.querySelector('.sli-name').textContent.toLowerCase();
+    const id = el.querySelector('.sli-id').textContent.toLowerCase();
+    el.style.display = (name.includes(q) || id.includes(q)) ? '' : 'none';
+  });
+});
+
+// ================================================================
+//  BOOT
+// ================================================================
+initStudentList();
+</script>
+</body>
+</html>
