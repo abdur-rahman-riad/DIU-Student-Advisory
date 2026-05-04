@@ -139,6 +139,7 @@ header {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 0;
 }
 
 /* Search area */
@@ -258,6 +259,7 @@ header {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  min-height: 0;
 }
 
 /* Idle state */
@@ -370,6 +372,7 @@ header {
 .middle-panel {
   flex: 1;
   min-width: 0;
+  min-height: 0;
   border-right: 1px solid var(--border);
   background: var(--bg);
   overflow-y: auto;
@@ -645,6 +648,7 @@ header {
   flex-direction: column;
   background: var(--surface);
   overflow: hidden;
+  min-height: 0;
 }
 
 .chat-header {
@@ -698,6 +702,8 @@ header {
   color: var(--muted);
   text-align: center;
   padding: 40px;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 /* Chat body */
@@ -706,6 +712,7 @@ header {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 0;
 }
 .chat-messages {
   flex: 1;
