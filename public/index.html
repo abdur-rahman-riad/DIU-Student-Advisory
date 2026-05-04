@@ -9,32 +9,30 @@
 /* ===== RESET & VARS ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #f5f6fa;
+  --bg: #f7f8fc;
   --surface: #ffffff;
   --surface2: #f0f2f8;
-  --surface3: #e8eaf2;
-  --border: #e2e5ef;
-  --border-strong: #c8ccd8;
-  --text: #1a1d2e;
-  --text2: #4a5068;
-  --muted: #8a90a8;
+  --surface3: #e4e7f0;
+  --border: #e0e3ef;
+  --border-strong: #c4c9dc;
+  --text: #111827;
+  --text2: #374151;
+  --muted: #6b7280;
   --accent: #3b6ef8;
-  --accent-light: #ebf0ff;
-  --accent-dim: rgba(59,110,248,0.08);
+  --accent-light: #eef2ff;
+  --accent-dim: rgba(59,110,248,0.10);
   --green: #16a34a;
   --green-light: #dcfce7;
   --warn: #d97706;
   --warn-light: #fef3c7;
   --danger: #dc2626;
   --danger-light: #fee2e2;
-  --purple: #7c3aed;
-  --purple-light: #ede9fe;
   --font: 'Inter', sans-serif;
   --mono: 'JetBrains Mono', monospace;
-  --radius: 10px;
-  --radius-lg: 14px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
 }
 
 body {
@@ -44,7 +42,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -56,43 +54,24 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
+  height: 52px;
   flex-shrink: 0;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: var(--shadow);
 }
-.header-brand {
+.header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-.brand-logo {
-  width: 34px; height: 34px;
-  background: linear-gradient(135deg, var(--accent), #6366f1);
-  border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
   font-family: var(--mono);
   font-size: 11px;
-  font-weight: 500;
-  color: #fff;
-  letter-spacing: -0.02em;
-  flex-shrink: 0;
-}
-.brand-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-.brand-sub {
-  font-family: var(--mono);
-  font-size: 10px;
   color: var(--muted);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+.header-sep { color: var(--border-strong); }
+.header-accent { color: var(--accent); font-weight: 500; }
 .header-right {
   display: flex;
   align-items: center;
@@ -104,41 +83,39 @@ header {
   color: var(--muted);
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 4px 10px;
+  border-radius: 5px;
+  padding: 3px 9px;
   letter-spacing: 0.04em;
 }
 .status-dot {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-family: var(--mono);
   font-size: 10px;
   color: var(--muted);
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 4px 10px;
+  border-radius: 5px;
+  padding: 3px 9px;
 }
 .dot {
   width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 0 2px var(--green-light);
 }
 
 /* ===== MAIN LAYOUT ===== */
 .main-layout {
   display: flex;
   flex: 1;
-  gap: 0;
   overflow: hidden;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 52px);
 }
 
 /* ===== LEFT PANEL ===== */
 .left-panel {
-  width: 300px;
+  width: 320px;
   flex-shrink: 0;
   border-right: 1px solid var(--border);
   background: var(--surface);
@@ -146,16 +123,19 @@ header {
   flex-direction: column;
   overflow: hidden;
 }
-.panel-section {
-  padding: 20px;
+
+/* Search area */
+.search-area {
+  padding: 20px 20px 16px;
   border-bottom: 1px solid var(--border);
 }
-.panel-label {
-  font-size: 10px;
+.search-label {
+  font-family: var(--mono);
+  font-size: 9px;
   font-weight: 600;
   color: var(--muted);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 10px;
 }
 .search-row {
@@ -172,11 +152,13 @@ header {
   padding: 9px 13px;
   border-radius: var(--radius);
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.02em;
 }
 .search-input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-dim);
+  background: var(--surface);
 }
 .search-input::placeholder { color: var(--muted); }
 .btn-search {
@@ -184,58 +166,148 @@ header {
   color: #fff;
   border: none;
   border-radius: var(--radius);
-  padding: 9px 14px;
+  padding: 9px 16px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s, background 0.15s;
   font-family: var(--font);
   white-space: nowrap;
+  letter-spacing: 0.01em;
 }
-.btn-search:hover { opacity: 0.88; }
+.btn-search:hover { background: #2558e8; }
 
-/* Student list */
-.student-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
+/* Quick ID chips */
+.quick-ids {
+  padding: 10px 20px 16px;
+  border-bottom: 1px solid var(--border);
 }
-.student-list-item {
+.quick-ids-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.quick-chips {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background 0.15s;
-  border: 1px solid transparent;
+  flex-wrap: wrap;
+  gap: 6px;
 }
-.student-list-item:hover { background: var(--surface2); }
-.student-list-item.active {
-  background: var(--accent-light);
-  border-color: rgba(59,110,248,0.2);
-}
-.sli-avatar {
-  width: 32px; height: 32px;
-  border-radius: 8px;
+.quick-chip {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text2);
   background: var(--surface2);
   border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
+  border-radius: 20px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.quick-chip:hover {
+  background: var(--accent-light);
+  border-color: rgba(59,110,248,0.3);
   color: var(--accent);
+}
+
+/* Left panel body — idle/result states */
+.left-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Idle state */
+.idle-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  gap: 10px;
+}
+.idle-icon {
+  font-size: 32px;
+  margin-bottom: 6px;
+  opacity: 0.5;
+}
+.idle-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+}
+.idle-sub {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Not found state */
+.notfound-state {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  gap: 10px;
+}
+.notfound-icon {
+  width: 48px; height: 48px;
+  background: var(--danger-light);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+.notfound-title { font-size: 13px; font-weight: 700; color: var(--danger); }
+.notfound-sub { font-size: 11px; color: var(--muted); }
+.notfound-id {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  margin-top: 4px;
+}
+
+/* Student result card in left panel */
+.student-result {
+  display: none;
+  padding: 14px;
+}
+.sli-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--accent-light);
+  border: 1px solid rgba(59,110,248,0.2);
+}
+.sli-avatar {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
   flex-shrink: 0;
   font-family: var(--mono);
 }
-.student-list-item.active .sli-avatar {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
 .sli-info { flex: 1; min-width: 0; }
 .sli-name {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
@@ -245,16 +317,18 @@ header {
   font-family: var(--mono);
   font-size: 10px;
   color: var(--muted);
+  margin-top: 1px;
 }
 .sli-cgpa {
   font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 /* ===== MIDDLE PANEL ===== */
 .middle-panel {
-  width: 380px;
+  width: 420px;
   flex-shrink: 0;
   border-right: 1px solid var(--border);
   background: var(--bg);
@@ -269,45 +343,45 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   padding: 40px;
   color: var(--muted);
   text-align: center;
 }
 .empty-icon {
-  width: 56px; height: 56px;
-  border-radius: 16px;
+  width: 52px; height: 52px;
+  border-radius: 14px;
   background: var(--surface3);
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 4px;
 }
-.empty-title { font-size: 14px; font-weight: 600; color: var(--text2); }
-.empty-sub { font-size: 12px; color: var(--muted); }
+.empty-title { font-size: 13px; font-weight: 600; color: var(--text2); }
+.empty-sub { font-size: 11px; color: var(--muted); max-width: 220px; }
 
-/* Student profile card */
-#student-content { display: none; padding: 20px; }
+#student-content { display: none; padding: 16px; }
 
+/* Profile card */
 .profile-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  margin-bottom: 14px;
+  padding: 18px;
+  margin-bottom: 12px;
   box-shadow: var(--shadow);
 }
 .profile-top {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .s-avatar {
-  width: 48px; height: 48px;
+  width: 46px; height: 46px;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--accent), #6366f1);
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
@@ -315,50 +389,48 @@ header {
 }
 .profile-info { flex: 1; min-width: 0; }
 .s-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 2px;
 }
 .s-id {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
 }
 .s-contact {
   font-size: 11px;
   color: var(--text2);
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 /* Stats grid */
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
 }
 .stat-card {
-  background: var(--surface);
+  background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px 14px;
-  box-shadow: var(--shadow);
 }
 .stat-label {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   margin-bottom: 4px;
 }
 .stat-value {
   font-family: var(--mono);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text);
-  line-height: 1.2;
+  line-height: 1.1;
 }
 .stat-sub {
   font-size: 10px;
@@ -370,11 +442,12 @@ header {
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
   border-radius: 20px;
+  font-family: var(--mono);
+  letter-spacing: 0.03em;
 }
 .status-clear { background: var(--green-light); color: var(--green); }
 .status-due { background: var(--warn-light); color: var(--warn); }
@@ -386,19 +459,16 @@ header {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   box-shadow: var(--shadow);
 }
 .info-section-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--text2);
+  color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 /* Issue tags */
@@ -408,32 +478,35 @@ header {
   font-size: 11px;
   font-weight: 500;
   padding: 3px 9px;
-  border-radius: 6px;
+  border-radius: 5px;
   margin: 2px 3px 2px 0;
+  font-family: var(--mono);
 }
 .issue-ok { background: var(--green-light); color: var(--green); }
 .issue-warn { background: var(--warn-light); color: var(--warn); }
 .issue-danger { background: var(--danger-light); color: var(--danger); }
 
-/* Semester pills */
-.semester-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-.sem-pill {
+/* SGPA trend pills */
+.sgpa-trend { display: flex; gap: 6px; flex-wrap: wrap; }
+.sgpa-point {
+  flex: 1;
+  min-width: 70px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 5px 10px;
-  font-size: 11px;
+  padding: 8px 10px;
+  text-align: center;
 }
-.sem-name { color: var(--muted); font-size: 10px; }
-.sem-gpa { font-family: var(--mono); font-weight: 700; font-size: 13px; }
+.sgpa-sem { font-size: 9px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
+.sgpa-val { font-family: var(--mono); font-weight: 700; font-size: 16px; margin-top: 3px; }
 
 /* Payment bar */
 .payment-bar-bg {
-  height: 6px;
+  height: 5px;
   background: var(--surface3);
   border-radius: 3px;
   overflow: hidden;
-  margin: 8px 0 4px;
+  margin: 8px 0 5px;
 }
 .payment-bar-fill {
   height: 100%;
@@ -450,32 +523,37 @@ header {
   font-size: 10px;
   color: var(--muted);
 }
-
-/* Semester detail table */
-.sem-table-wrap { overflow-x: auto; }
-.sem-table {
-  width: 100%;
-  border-collapse: collapse;
+.pay-total {
+  font-family: var(--mono);
   font-size: 11px;
+  color: var(--text2);
+  font-weight: 600;
+  margin-bottom: 2px;
 }
+
+/* Guardian grid */
+.guardian-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.guardian-block {}
+.guardian-role { font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.guardian-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.guardian-mobile { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-top: 2px; }
+
+/* Semester table */
+.sem-table-wrap { overflow-x: auto; }
+.sem-table { width: 100%; border-collapse: collapse; font-size: 11px; }
 .sem-table th {
   background: var(--surface2);
   color: var(--muted);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: 10px;
+  font-size: 9px;
   padding: 7px 10px;
   text-align: left;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
 }
-.sem-table td {
-  padding: 7px 10px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text2);
-  white-space: nowrap;
-}
+.sem-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text2); }
 .sem-table tr:last-child td { border-bottom: none; }
 .sem-table tr:hover td { background: var(--surface2); }
 .grade-badge {
@@ -484,7 +562,7 @@ header {
   font-size: 10px;
   font-weight: 700;
   padding: 2px 7px;
-  border-radius: 5px;
+  border-radius: 4px;
   background: var(--surface3);
   color: var(--text);
 }
@@ -494,23 +572,30 @@ header {
 .grade-d { background: var(--danger-light); color: var(--danger); }
 .grade-f { background: var(--danger); color: #fff; }
 
-/* SGPA trend */
-.sgpa-trend {
+/* Semester toggle */
+.section-toggle {
   display: flex;
+  align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
-}
-.sgpa-point {
-  flex: 1;
-  min-width: 80px;
+  padding: 10px 14px;
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-  text-align: center;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+  transition: background 0.12s;
+  font-family: var(--font);
 }
-.sgpa-sem { font-size: 9px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; }
-.sgpa-val { font-family: var(--mono); font-weight: 700; font-size: 16px; margin-top: 2px; }
+.section-toggle:hover { background: var(--surface3); }
+.toggle-arrow { margin-left: auto; font-size: 10px; transition: transform 0.2s; }
+.toggle-arrow.open { transform: rotate(180deg); }
+.collapsible { display: none; }
+.collapsible.open { display: block; }
 
 /* ===== RIGHT PANEL (CHAT) ===== */
 .right-panel {
@@ -521,6 +606,7 @@ header {
   overflow: hidden;
   min-width: 0;
 }
+
 .chat-header {
   padding: 14px 20px;
   border-bottom: 1px solid var(--border);
@@ -529,45 +615,52 @@ header {
   gap: 10px;
   flex-shrink: 0;
 }
-.chat-icon {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #6366f1, #a78bfa);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
+.chat-name-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
-.chat-header-info { flex: 1; }
-.chat-title { font-size: 13px; font-weight: 700; color: var(--text); }
-.chat-sub { font-size: 11px; color: var(--muted); }
+.chat-sep { color: var(--border-strong); font-family: var(--mono); font-size: 12px; }
+.chat-title-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 .chat-live-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--muted);
+  flex-shrink: 0;
 }
 .chat-live-dot.live {
   background: var(--green);
-  box-shadow: 0 0 0 2px var(--green-light);
   animation: pulse 2s infinite;
 }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 2px var(--green-light); }
-  50% { box-shadow: 0 0 0 4px rgba(22,163,74,0.2); }
+  0%, 100% { box-shadow: 0 0 0 2px rgba(22,163,74,0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(22,163,74,0.15); }
 }
 
-/* Chat no student */
+/* No student placeholder */
 .no-student-chat {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 40px;
-  text-align: center;
+  gap: 10px;
   color: var(--muted);
+  text-align: center;
+  padding: 40px;
 }
 
-/* Chat messages */
+/* Chat body */
 .chat-body {
   flex: 1;
   display: flex;
@@ -580,14 +673,14 @@ header {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 .msg {
-  max-width: 88%;
+  max-width: 82%;
   padding: 10px 14px;
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.55;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -595,25 +688,52 @@ header {
   align-self: flex-end;
   background: var(--accent);
   color: #fff;
-  border-radius: 12px 12px 3px 12px;
+  border-radius: 10px 10px 3px 10px;
 }
 .msg-ai {
   align-self: flex-start;
   background: var(--surface2);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 12px 12px 12px 3px;
+  border-radius: 10px 10px 10px 3px;
 }
 .msg-hint {
   align-self: center;
   font-size: 11px;
   color: var(--muted);
-  font-style: italic;
   background: var(--surface2);
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 20px;
   border: 1px solid var(--border);
 }
+
+/* Suggestion chips */
+.suggestions {
+  padding: 0 20px 10px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: var(--font);
+}
+.chip:hover {
+  background: var(--accent-light);
+  border-color: rgba(59,110,248,0.3);
+  color: var(--accent);
+}
+
+/* Typing indicator */
 .typing-indicator {
   display: flex;
   align-items: center;
@@ -633,42 +753,16 @@ header {
   30% { transform: translateY(-6px); }
 }
 
-/* Suggestions */
-.suggestions {
-  padding: 0 20px 10px;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  flex-shrink: 0;
-}
-.chip {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  color: var(--text2);
-  font-size: 11px;
-  font-weight: 500;
-  padding: 5px 12px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: var(--font);
-}
-.chip:hover {
-  background: var(--accent-light);
-  border-color: rgba(59,110,248,0.3);
-  color: var(--accent);
-}
-
-/* Chat input */
+/* Chat input area */
 .chat-input-area {
-  padding: 14px 20px;
+  padding: 12px 20px 14px;
   border-top: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
 }
 .input-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-end;
 }
 .chat-input {
@@ -684,12 +778,13 @@ header {
   resize: none;
   max-height: 120px;
   min-height: 40px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s;
   line-height: 1.5;
 }
 .chat-input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-dim);
+  background: var(--surface);
 }
 .chat-input::placeholder { color: var(--muted); }
 .send-btn {
@@ -707,88 +802,36 @@ header {
   transition: opacity 0.15s;
   font-size: 16px;
 }
-.send-btn:hover:not(:disabled) { opacity: 0.88; }
-.send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.send-btn:hover:not(:disabled) { background: #2558e8; }
+.send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .input-hint {
   font-size: 10px;
   color: var(--muted);
-  margin-top: 6px;
+  margin-top: 5px;
   font-family: var(--mono);
 }
 
-/* Confidence badge */
-.conf-badge {
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 4px;
-  letter-spacing: 0.06em;
-  margin-bottom: 4px;
-  display: inline-block;
-}
-.conf-high { background: var(--green-light); color: var(--green); }
-.conf-medium { background: var(--warn-light); color: var(--warn); }
-.conf-low { background: var(--danger-light); color: var(--danger); }
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 5px; height: 5px; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .main-layout { flex-direction: column; height: auto; overflow: visible; }
-  .left-panel { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; }
-  .left-panel .panel-section { flex: 1; min-width: 280px; }
-  .student-list { max-height: 200px; }
-  .middle-panel { width: 100%; height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border); }
-  .right-panel { min-height: 450px; }
-}
-@media (max-width: 600px) {
-  header { padding: 0 14px; }
-  .brand-sub { display: none; }
-  .main-layout { height: auto; }
-  .chat-messages { max-height: 300px; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-}
-
-/* ===== SECTION TOGGLE ===== */
-.section-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text2);
-  width: 100%;
-  text-align: left;
-  margin-bottom: 8px;
-  transition: background 0.15s;
-}
-.section-toggle:hover { background: var(--surface3); }
-.toggle-arrow { margin-left: auto; font-size: 10px; transition: transform 0.2s; }
-.toggle-arrow.open { transform: rotate(180deg); }
-.collapsible { display: none; }
-.collapsible.open { display: block; }
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
-  <div class="header-brand">
-    <div class="brand-logo">SA</div>
-    <div>
-      <div class="brand-name">Student Advisory System</div>
-      <div class="brand-sub">Daffodil International University</div>
-    </div>
+  <div class="header-left">
+    <span class="header-accent">SAS</span>
+    <span class="header-sep">·</span>
+    <span>Student Advisory System</span>
+    <span class="header-sep">·</span>
+    <span>v1.0</span>
+    <span class="header-sep">·</span>
+    <span>RAG</span>
+    <span class="header-sep">·</span>
+    <span>Anthropic Claude</span>
   </div>
   <div class="header-right">
     <div class="header-badge">Batch 67 · CSE</div>
@@ -802,28 +845,61 @@ header {
 <!-- MAIN -->
 <div class="main-layout">
 
-  <!-- LEFT: Search + Student List -->
+  <!-- LEFT PANEL: Search only -->
   <div class="left-panel">
-    <div class="panel-section">
-      <div class="panel-label">Search Student</div>
+    <div class="search-area">
+      <div class="search-label">Student ID Lookup</div>
       <div class="search-row">
-        <input type="text" id="sid-input" class="search-input" placeholder="Enter Student ID..." />
-        <button class="btn-search" onclick="loadStudent()">Load</button>
+        <input type="text" id="sid-input" class="search-input" placeholder="242-15-316" />
+        <button class="btn-search" onclick="loadStudent()">Search →</button>
       </div>
     </div>
-    <div class="student-list" id="student-list"></div>
+
+    <div class="quick-ids">
+      <div class="quick-ids-label">Quick access</div>
+      <div class="quick-chips" id="quick-chips"></div>
+    </div>
+
+    <div class="left-body">
+      <!-- Idle -->
+      <div class="idle-state" id="idle-state">
+        <div class="idle-icon">🔍</div>
+        <div class="idle-title">Enter a Student ID</div>
+        <div class="idle-sub">Type a student ID above and press Search to load their advisory profile and activate the AI advisor.</div>
+      </div>
+
+      <!-- Not found -->
+      <div class="notfound-state" id="notfound-state">
+        <div class="notfound-icon">✕</div>
+        <div class="notfound-title">Student Not Found</div>
+        <div class="notfound-sub">No record matches</div>
+        <div class="notfound-id" id="notfound-id-display"></div>
+        <div class="idle-sub" style="margin-top:8px;">Try a valid ID like 242-15-317</div>
+      </div>
+
+      <!-- Found result -->
+      <div class="student-result" id="student-result">
+        <div class="sli-card" id="sli-card">
+          <div class="sli-avatar" id="res-avatar"></div>
+          <div class="sli-info">
+            <div class="sli-name" id="res-name"></div>
+            <div class="sli-id" id="res-id"></div>
+          </div>
+          <div class="sli-cgpa" id="res-cgpa"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- MIDDLE: Student Profile -->
   <div class="middle-panel" id="middle-panel">
     <div class="empty-state" id="empty-left">
       <div class="empty-icon">🎓</div>
-      <div class="empty-title">Select a Student</div>
-      <div class="empty-sub">Search by ID or click a student from the list to view their advisory profile.</div>
+      <div class="empty-title">No Student Loaded</div>
+      <div class="empty-sub">Search by student ID to view their advisory profile here.</div>
     </div>
 
     <div id="student-content">
-      <!-- Profile Card -->
       <div class="profile-card">
         <div class="profile-top">
           <div class="s-avatar" id="s-avatar"></div>
@@ -834,7 +910,6 @@ header {
           </div>
           <div id="s-status-badge"></div>
         </div>
-
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-label">CGPA</div>
@@ -842,87 +917,85 @@ header {
             <div class="stat-sub" id="s-cgpa-sub"></div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">Credits Completed</div>
+            <div class="stat-label">Credits</div>
             <div class="stat-value" id="s-credits"></div>
-            <div class="stat-sub">out of enrolled</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Due Amount</div>
-            <div class="stat-value" id="s-due" style="font-size:16px"></div>
-            <div class="stat-sub" id="s-due-sub"></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Mentoring Sessions</div>
-            <div class="stat-value" id="s-mentoring"></div>
             <div class="stat-sub">completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Mentoring</div>
+            <div class="stat-value" id="s-mentoring"></div>
+            <div class="stat-sub">sessions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Due (BDT)</div>
+            <div class="stat-value" id="s-due" style="font-size:18px;line-height:1.3"></div>
+            <div class="stat-sub" id="s-due-sub"></div>
           </div>
         </div>
       </div>
 
-      <!-- Issues -->
+      <!-- Active Issues -->
       <div class="info-section">
-        <div class="info-section-title">⚠ Attention Issues</div>
+        <div class="info-section-title">Active Issues</div>
         <div id="s-issues"></div>
       </div>
 
       <!-- SGPA Trend -->
       <div class="info-section">
-        <div class="info-section-title">📈 SGPA Trend</div>
+        <div class="info-section-title">Semester GPA History</div>
         <div class="sgpa-trend" id="s-sgpa-trend"></div>
       </div>
 
       <!-- Payment -->
       <div class="info-section">
-        <div class="info-section-title">💳 Payment Status</div>
+        <div class="info-section-title">Payment Status</div>
+        <div class="pay-total" id="s-payable"></div>
         <div class="payment-bar-bg"><div class="payment-bar-fill" id="s-paybar" style="width:0%"></div></div>
         <div class="pay-meta">
           <span id="s-paid-label"></span>
           <span id="s-due-label"></span>
         </div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;">Total Payable: <span id="s-payable"></span></div>
       </div>
 
       <!-- Guardian -->
       <div class="info-section">
-        <div class="info-section-title">👨‍👩‍👧 Guardian Info</div>
-        <div id="s-guardian"></div>
+        <div class="info-section-title">Guardian Info</div>
+        <div class="guardian-grid" id="s-guardian"></div>
       </div>
 
       <!-- Semester Results (collapsible) -->
       <button class="section-toggle" onclick="toggleSection('sem-section','sem-arrow')">
-        📋 Semester Course Results <span class="toggle-arrow" id="sem-arrow">▼</span>
+        Semester Course Results <span class="toggle-arrow" id="sem-arrow">▼</span>
       </button>
-      <div class="collapsible info-section" id="sem-section" style="margin-bottom:10px;">
+      <div class="collapsible info-section" id="sem-section" style="margin-bottom:12px;">
         <div class="sem-table-wrap" id="s-sem-table"></div>
       </div>
-
     </div>
   </div>
 
   <!-- RIGHT: Chat -->
   <div class="right-panel">
     <div class="chat-header">
-      <div class="chat-icon">✨</div>
-      <div class="chat-header-info">
-        <div class="chat-title" id="chat-header-text">AI Student Advisor</div>
-        <div class="chat-sub">Ask anything about the selected student</div>
-      </div>
       <div class="chat-live-dot" id="chat-dot"></div>
+      <span class="chat-name-badge" id="chat-header-name">—</span>
+      <span class="chat-sep">·</span>
+      <span class="chat-title-label">AI Advisor</span>
     </div>
 
     <div class="no-student-chat" id="no-student-chat">
-      <div class="empty-icon">💬</div>
-      <div class="empty-title">No Student Selected</div>
-      <div class="empty-sub">Load a student first to start an AI-assisted advisory session.</div>
+      <div class="empty-icon" style="font-size:28px;opacity:0.4;">💬</div>
+      <div class="empty-title">AI Advisor Inactive</div>
+      <div class="empty-sub">Search and load a student to activate the AI advisory session.</div>
     </div>
 
     <div class="chat-body" id="chat-body" style="display:none">
       <div class="chat-messages" id="chat-messages"></div>
       <div class="suggestions" id="suggestions" style="display:none">
         <button class="chip" onclick="sendChip(this)">What are the main issues?</button>
-        <button class="chip" onclick="sendChip(this)">Summarize academic performance</button>
-        <button class="chip" onclick="sendChip(this)">Payment status details</button>
-        <button class="chip" onclick="sendChip(this)">Advise action plan</button>
+        <button class="chip" onclick="sendChip(this)">Summarise payment status</button>
+        <button class="chip" onclick="sendChip(this)">Explain GPA trend</button>
+        <button class="chip" onclick="sendChip(this)">Contact details</button>
+        <button class="chip" onclick="sendChip(this)">Mentoring history</button>
       </div>
       <div class="chat-input-area">
         <div class="input-row">
@@ -938,7 +1011,7 @@ header {
 
 <script>
 // ================================================================
-//  STUDENT DATA — All CSVs merged into session memory
+//  STUDENT DATA
 // ================================================================
 const RAW_SUMMARY = [
   {id:"242-15-316",name:"Mst. Jerin Binta Jaman",mobile:"016******01",cgpa:2,courseTaken:19.5,completedCredit:9,mentoringCount:0,expireDate:"2028-06-30",totalPayable:131300,totalPaid:131100,dueAmount:200,fatherName:"Md. Ferdous Jaman",fatherMobile:"013******01",motherName:"Mst. Misee Akter",motherMobile:"017******01"},
@@ -1006,67 +1079,35 @@ const RAW_SUMMARY = [
 ];
 
 const SGPA_DATA = {
-  "242-15-316":{},
-  "242-15-317":{"Spring 2025":3.58,"Summer 2025":3.2},
-  "242-15-318":{"Spring 2025":2.5,"Summer 2025":2.62},
-  "242-15-319":{"Spring 2025":3.5,"Summer 2025":3.2},
-  "242-15-320":{"Spring 2025":3.48,"Summer 2025":3.05},
-  "242-15-321":{"Spring 2025":3.55,"Summer 2025":3.35},
-  "242-15-322":{"Spring 2025":3.08,"Summer 2025":3.52},
-  "242-15-323":{},
-  "242-15-324":{"Spring 2025":3.83,"Summer 2025":3.83},
-  "242-15-326":{"Spring 2025":2.85,"Summer 2025":2.85},
-  "242-15-327":{"Spring 2025":3.35,"Summer 2025":3.08},
-  "242-15-328":{"Spring 2025":2.4,"Summer 2025":3.02},
-  "242-15-329":{"Spring 2025":2.62,"Summer 2025":2.77},
-  "242-15-330":{"Spring 2025":3.77,"Summer 2025":4},
-  "242-15-331":{"Spring 2025":2.81,"Summer 2025":2.5},
-  "242-15-332":{"Spring 2025":3.75,"Summer 2025":4},
-  "242-15-333":{"Spring 2025":3.02,"Summer 2025":2.7},
-  "242-15-334":{"Spring 2025":2.65,"Summer 2025":3.42},
-  "242-15-335":{"Spring 2025":3.7,"Summer 2025":3.9},
-  "242-15-336":{"Spring 2025":2.88,"Summer 2025":3.15},
-  "242-15-337":{},
-  "242-15-338":{"Spring 2025":2.75,"Summer 2025":2.35},
-  "242-15-339":{"Spring 2025":3.05,"Summer 2025":3.23},
-  "242-15-340":{"Spring 2025":3.52,"Summer 2025":3.48},
-  "242-15-341":{"Spring 2025":2.73,"Summer 2025":2.75},
-  "242-15-342":{"Spring 2025":2.8,"Summer 2025":2.56},
-  "242-15-343":{"Spring 2025":3.48,"Summer 2025":3.7},
-  "242-15-344":{"Spring 2025":3.9,"Summer 2025":3.77},
-  "242-15-345":{"Spring 2025":2.55,"Summer 2025":2.44},
-  "242-15-346":{"Spring 2025":3.6,"Summer 2025":4},
-  "242-15-347":{"Spring 2025":2.29,"Summer 2025":2.56},
-  "242-15-348":{"Spring 2025":3.58,"Summer 2025":3.75},
-  "242-15-349":{"Spring 2025":3.6,"Summer 2025":3.6},
-  "242-15-350":{"Spring 2025":3.27,"Summer 2025":3.12},
-  "242-15-351":{"Spring 2025":3.3},
-  "242-15-352":{"Spring 2025":3.6,"Summer 2025":3.48},
-  "242-15-353":{"Spring 2025":2.7,"Summer 2025":2.98},
-  "242-15-354":{"Spring 2025":3.05,"Summer 2025":2.88},
-  "242-15-355":{"Spring 2025":3.73,"Summer 2025":3.9},
-  "242-15-356":{"Spring 2025":3.27,"Summer 2025":3.5},
-  "242-15-357":{"Spring 2025":3.85,"Summer 2025":3.55},
-  "242-15-358":{"Spring 2025":2.25,"Summer 2025":2.39},
-  "242-15-359":{"Spring 2025":2.88,"Summer 2025":2.79},
-  "242-15-360":{"Spring 2025":3.38,"Summer 2025":3.12},
-  "242-15-361":{"Spring 2025":3.88,"Summer 2025":3.62},
-  "242-15-362":{"Spring 2025":3.05,"Summer 2025":3.38},
-  "242-15-363":{"Spring 2025":3.42,"Summer 2025":2.8},
-  "242-15-364":{"Spring 2025":2.77,"Summer 2025":2.77},
-  "242-15-365":{"Spring 2025":3.75,"Summer 2025":3.88},
-  "242-15-366":{"Spring 2025":2.25,"Summer 2025":2},
-  "242-15-367":{"Spring 2025":2.19,"Summer 2025":2.33},
-  "242-15-368":{"Spring 2025":2.58,"Summer 2025":2.3},
-  "242-15-369":{"Spring 2025":3.75,"Summer 2025":3.92},
-  "242-15-370":{"Spring 2025":3.8,"Summer 2025":3.6},
-  "242-15-371":{"Spring 2025":2.55,"Summer 2025":3},
-  "242-15-372":{"Spring 2025":3.58,"Summer 2025":3.23},
-  "242-15-373":{"Spring 2025":3.25,"Summer 2025":3.15},
-  "242-15-374":{"Spring 2025":2.61,"Summer 2025":2.54},
-  "242-15-375":{"Spring 2025":3.52,"Summer 2025":3.3},
-  "242-15-376":{"Spring 2025":3.62,"Summer 2025":3.4},
-  "242-15-377":{"Spring 2025":3.2,"Summer 2025":2.9},
+  "242-15-316":{},"242-15-317":{"Spring 2025":3.58,"Summer 2025":3.2},"242-15-318":{"Spring 2025":2.5,"Summer 2025":2.62},
+  "242-15-319":{"Spring 2025":3.5,"Summer 2025":3.2},"242-15-320":{"Spring 2025":3.48,"Summer 2025":3.05},
+  "242-15-321":{"Spring 2025":3.55,"Summer 2025":3.35},"242-15-322":{"Spring 2025":3.08,"Summer 2025":3.52},
+  "242-15-323":{},"242-15-324":{"Spring 2025":3.83,"Summer 2025":3.83},"242-15-326":{"Spring 2025":2.85,"Summer 2025":2.85},
+  "242-15-327":{"Spring 2025":3.35,"Summer 2025":3.08},"242-15-328":{"Spring 2025":2.4,"Summer 2025":3.02},
+  "242-15-329":{"Spring 2025":2.62,"Summer 2025":2.77},"242-15-330":{"Spring 2025":3.77,"Summer 2025":4},
+  "242-15-331":{"Spring 2025":2.81,"Summer 2025":2.5},"242-15-332":{"Spring 2025":3.75,"Summer 2025":4},
+  "242-15-333":{"Spring 2025":3.02,"Summer 2025":2.7},"242-15-334":{"Spring 2025":2.65,"Summer 2025":3.42},
+  "242-15-335":{"Spring 2025":3.7,"Summer 2025":3.9},"242-15-336":{"Spring 2025":2.88,"Summer 2025":3.15},
+  "242-15-337":{},"242-15-338":{"Spring 2025":2.75,"Summer 2025":2.35},"242-15-339":{"Spring 2025":3.05,"Summer 2025":3.23},
+  "242-15-340":{"Spring 2025":3.52,"Summer 2025":3.48},"242-15-341":{"Spring 2025":2.73,"Summer 2025":2.75},
+  "242-15-342":{"Spring 2025":2.8,"Summer 2025":2.56},"242-15-343":{"Spring 2025":3.48,"Summer 2025":3.7},
+  "242-15-344":{"Spring 2025":3.9,"Summer 2025":3.77},"242-15-345":{"Spring 2025":2.55,"Summer 2025":2.44},
+  "242-15-346":{"Spring 2025":3.6,"Summer 2025":4},"242-15-347":{"Spring 2025":2.29,"Summer 2025":2.56},
+  "242-15-348":{"Spring 2025":3.58,"Summer 2025":3.75},"242-15-349":{"Spring 2025":3.6,"Summer 2025":3.6},
+  "242-15-350":{"Spring 2025":3.27,"Summer 2025":3.12},"242-15-351":{"Spring 2025":3.3},
+  "242-15-352":{"Spring 2025":3.6,"Summer 2025":3.48},"242-15-353":{"Spring 2025":2.7,"Summer 2025":2.98},
+  "242-15-354":{"Spring 2025":3.05,"Summer 2025":2.88},"242-15-355":{"Spring 2025":3.73,"Summer 2025":3.9},
+  "242-15-356":{"Spring 2025":3.27,"Summer 2025":3.5},"242-15-357":{"Spring 2025":3.85,"Summer 2025":3.55},
+  "242-15-358":{"Spring 2025":2.25,"Summer 2025":2.39},"242-15-359":{"Spring 2025":2.88,"Summer 2025":2.79},
+  "242-15-360":{"Spring 2025":3.38,"Summer 2025":3.12},"242-15-361":{"Spring 2025":3.88,"Summer 2025":3.62},
+  "242-15-362":{"Spring 2025":3.05,"Summer 2025":3.38},"242-15-363":{"Spring 2025":3.42,"Summer 2025":2.8},
+  "242-15-364":{"Spring 2025":2.77,"Summer 2025":2.77},"242-15-365":{"Spring 2025":3.75,"Summer 2025":3.88},
+  "242-15-366":{"Spring 2025":2.25,"Summer 2025":2},"242-15-367":{"Spring 2025":2.19,"Summer 2025":2.33},
+  "242-15-368":{"Spring 2025":2.58,"Summer 2025":2.3},"242-15-369":{"Spring 2025":3.75,"Summer 2025":3.92},
+  "242-15-370":{"Spring 2025":3.8,"Summer 2025":3.6},"242-15-371":{"Spring 2025":2.55,"Summer 2025":3},
+  "242-15-372":{"Spring 2025":3.58,"Summer 2025":3.23},"242-15-373":{"Spring 2025":3.25,"Summer 2025":3.15},
+  "242-15-374":{"Spring 2025":2.61,"Summer 2025":2.54},"242-15-375":{"Spring 2025":3.52,"Summer 2025":3.3},
+  "242-15-376":{"Spring 2025":3.62,"Summer 2025":3.4},"242-15-377":{"Spring 2025":3.2,"Summer 2025":2.9},
   "242-15-378":{"Spring 2025":2.25,"Summer 2025":2.43},
 };
 
@@ -1098,8 +1139,7 @@ const ISSUES = {
   "242-15-321":["Due: 42,504 BDT","No mentoring session"],
   "242-15-322":["Incomplete credits (61.5/64.5)","No mentoring session"],
   "242-15-323":["Low CGPA (2.48)","Due: 43,767 BDT","Incomplete credits (16.5/34.5)","No mentoring session"],
-  "242-15-324":["No mentoring session"],
-  "242-15-326":["No mentoring session"],
+  "242-15-324":["No mentoring session"],"242-15-326":["No mentoring session"],
   "242-15-327":["Due: 32,019 BDT","No mentoring session"],
   "242-15-328":["Due: 42,506 BDT","No mentoring session"],
   "242-15-329":["Due: 35,516 BDT","No mentoring session"],
@@ -1108,12 +1148,10 @@ const ISSUES = {
   "242-15-332":["Due: 35,517 BDT","No mentoring session"],
   "242-15-333":["Due: 32,225 BDT","No mentoring session"],
   "242-15-334":["Due: 42,477 BDT","No mentoring session"],
-  "242-15-335":["No mentoring session"],
-  "242-15-336":["No mentoring session"],
+  "242-15-335":["No mentoring session"],"242-15-336":["No mentoring session"],
   "242-15-337":["Low CGPA (0.0)","Due: 31,380 BDT","Incomplete credits (0.0/31.5)","No mentoring session"],
   "242-15-338":["Incomplete credits (57.0/66.0)","No mentoring session"],
-  "242-15-339":["No mentoring session"],
-  "242-15-340":["No mentoring session"],
+  "242-15-339":["No mentoring session"],"242-15-340":["No mentoring session"],
   "242-15-341":["Due: 42,510 BDT","No mentoring session"],
   "242-15-342":["Incomplete credits (61.5/64.5)","No mentoring session"],
   "242-15-343":["Due: 35,510 BDT","No mentoring session"],
@@ -1126,8 +1164,7 @@ const ISSUES = {
   "242-15-350":["Due: 35,518 BDT","No mentoring session"],
   "242-15-351":["No mentoring session"],
   "242-15-352":["Due: 31,429 BDT","No mentoring session"],
-  "242-15-353":["No mentoring session"],
-  "242-15-354":["No mentoring session"],
+  "242-15-353":["No mentoring session"],"242-15-354":["No mentoring session"],
   "242-15-355":["Due: 32,021 BDT","No mentoring session"],
   "242-15-356":["Due: 31,992 BDT","No mentoring session"],
   "242-15-357":["No mentoring session"],
@@ -1135,10 +1172,9 @@ const ISSUES = {
   "242-15-359":["Incomplete credits (51.0/67.5)","No mentoring session"],
   "242-15-360":["No mentoring session"],
   "242-15-361":["Due: 32,025 BDT","No mentoring session"],
-  "242-15-362":["No mentoring session"],
-  "242-15-363":["No mentoring session"],
+  "242-15-362":["No mentoring session"],"242-15-363":["No mentoring session"],
   "242-15-364":["No mentoring session"],
-  "242-15-366":["Low CGPA (2.06)","Incomplete credits (36.0/64.5)","No mentoring session"],
+  "242-15-365":[],"242-15-366":["Low CGPA (2.06)","Incomplete credits (36.0/64.5)","No mentoring session"],
   "242-15-367":["Low CGPA (2.39)","Incomplete credits (52.5/67.5)","No mentoring session"],
   "242-15-368":["Due: 35,988 BDT","No mentoring session"],
   "242-15-369":["No mentoring session"],
@@ -1153,10 +1189,8 @@ const ISSUES = {
   "242-15-378":["Low CGPA (2.4)","Due: 62,100 BDT","Incomplete credits (22.5/61.5)","No mentoring session"],
 };
 
-// Semester results — subset stored (full CSV has 710+ rows; storing key records for AI context)
 const SEMESTER_RESULTS = {
-  "242-15-316":[],
-  "242-15-317":[
+  "242-15-316":[],"242-15-317":[
     {sem:"Spring 2025",code:"CSE123",title:"Data Structure",credit:3,grade:"A",gp:3.75,total:75},
     {sem:"Spring 2025",code:"CSE124",title:"Data Structure Lab",credit:1.5,grade:"B+",gp:3.25,total:68},
     {sem:"Spring 2025",code:"ENG102",title:"Writing and Comprehension",credit:3,grade:"A-",gp:3.5,total:70},
@@ -1182,8 +1216,7 @@ const SEMESTER_RESULTS = {
     {sem:"Spring 2025",code:"MAT102",title:"Mathematics-II",credit:3,grade:"I",gp:0,total:3,absent:"Yes"},
     {sem:"Spring 2025",code:"PHY102",title:"Physics - II",credit:3,grade:"I",gp:0,total:2,absent:"Yes"},
   ],
-  "242-15-337":[],
-  "242-15-366":[
+  "242-15-337":[],"242-15-366":[
     {sem:"Spring 2025",code:"CSE123",title:"Data Structure",credit:3,grade:"F",gp:0,total:26},
     {sem:"Spring 2025",code:"MAT102",title:"Mathematics-II",credit:3,grade:"F",gp:0,total:33},
     {sem:"Spring 2025",code:"PHY102",title:"Physics - II",credit:3,grade:"F",gp:0,total:23},
@@ -1204,37 +1237,28 @@ RAW_SUMMARY.forEach(s => {
   };
 });
 
-// ================================================================
-//  SESSION STATE
-// ================================================================
+// Session state
 let currentStudent = null;
 let chatHistory = [];
 
 // ================================================================
-//  INIT — Build student list
+//  INIT
 // ================================================================
-function initStudentList() {
-  const list = document.getElementById('student-list');
-  list.innerHTML = RAW_SUMMARY.map(s => {
-    const cgpaColor = s.cgpa >= 3.5 ? 'var(--green)' : s.cgpa >= 2.5 ? 'var(--warn)' : 'var(--danger)';
-    const initials = s.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-    return `<div class="student-list-item" id="sli-${s.id}" onclick="quickLoad('${s.id}')">
-      <div class="sli-avatar">${initials}</div>
-      <div class="sli-info">
-        <div class="sli-name">${s.name}</div>
-        <div class="sli-id">${s.id}</div>
-      </div>
-      <div class="sli-cgpa" style="color:${cgpaColor}">${s.cgpa.toFixed(2)}</div>
-    </div>`;
-  }).join('');
+function initQuickChips() {
+  const chips = document.getElementById('quick-chips');
+  // Show first 5 IDs as quick access chips
+  const quickIds = RAW_SUMMARY.slice(0, 5).map(s => s.id);
+  chips.innerHTML = quickIds.map(id =>
+    `<div class="quick-chip" onclick="quickLoad('${id}')">${id}</div>`
+  ).join('');
 }
 
 function initials(name) {
-  return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  return name.split(' ').filter(w => w.length > 0).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 }
 
 // ================================================================
-//  STUDENT LOAD
+//  SEARCH LOGIC — search-first, no pre-loaded list
 // ================================================================
 function quickLoad(id) {
   document.getElementById('sid-input').value = id;
@@ -1243,24 +1267,60 @@ function quickLoad(id) {
 
 function loadStudent() {
   const raw = document.getElementById('sid-input').value.trim().toUpperCase();
-  // Try exact match or partial
+  if (!raw) return;
+
+  // Try exact match or partial name/id
   let s = STUDENTS[raw];
   if (!s) {
-    // Try searching by name fragment
     const found = RAW_SUMMARY.find(r => r.name.toLowerCase().includes(raw.toLowerCase()) || r.id === raw);
     if (found) s = STUDENTS[found.id];
   }
-  if (!s) { alert('Student not found. Try a valid ID like 242-15-317'); return; }
-  
-  // Deactivate previous
-  document.querySelectorAll('.student-list-item').forEach(el => el.classList.remove('active'));
-  const sli = document.getElementById('sli-' + s.id);
-  if (sli) { sli.classList.add('active'); sli.scrollIntoView({block:'nearest'}); }
 
+  if (!s) {
+    showNotFound(raw);
+    clearProfile();
+    return;
+  }
+
+  showFoundResult(s);
   currentStudent = s;
   chatHistory = [];
   renderProfile(s);
   enableChat(s);
+}
+
+function showNotFound(query) {
+  document.getElementById('idle-state').style.display = 'none';
+  document.getElementById('student-result').style.display = 'none';
+  const nf = document.getElementById('notfound-state');
+  nf.style.display = 'flex';
+  document.getElementById('notfound-id-display').textContent = query;
+}
+
+function showFoundResult(s) {
+  document.getElementById('idle-state').style.display = 'none';
+  document.getElementById('notfound-state').style.display = 'none';
+  const sr = document.getElementById('student-result');
+  sr.style.display = 'block';
+
+  const cgpaColor = s.cgpa >= 3.5 ? 'var(--green)' : s.cgpa >= 2.5 ? 'var(--warn)' : 'var(--danger)';
+  document.getElementById('res-avatar').textContent = initials(s.name);
+  document.getElementById('res-name').textContent = s.name;
+  document.getElementById('res-id').textContent = s.id + ' · Exp: ' + s.expireDate;
+  const cgpaEl = document.getElementById('res-cgpa');
+  cgpaEl.textContent = s.cgpa.toFixed(2);
+  cgpaEl.style.color = cgpaColor;
+}
+
+function clearProfile() {
+  document.getElementById('empty-left').style.display = 'flex';
+  document.getElementById('student-content').style.display = 'none';
+  document.getElementById('no-student-chat').style.display = 'flex';
+  document.getElementById('chat-body').style.display = 'none';
+  document.getElementById('chat-dot').classList.remove('live');
+  document.getElementById('chat-header-name').textContent = '—';
+  currentStudent = null;
+  chatHistory = [];
 }
 
 // ================================================================
@@ -1270,34 +1330,31 @@ function renderProfile(s) {
   document.getElementById('empty-left').style.display = 'none';
   document.getElementById('student-content').style.display = 'block';
 
-  // Avatar & name
   document.getElementById('s-avatar').textContent = initials(s.name);
   document.getElementById('s-name').textContent = s.name;
   document.getElementById('s-id').textContent = s.id;
   document.getElementById('s-mobile').textContent = '📞 ' + s.mobile + ' · Exp: ' + s.expireDate;
 
-  // Status badge
   const sb = document.getElementById('s-status-badge');
   const cls = s.paymentStatus === 'Clear' ? 'status-clear' : s.paymentStatus === 'Due' ? 'status-due' : 'status-highdue';
   sb.innerHTML = `<span class="status-badge ${cls}">${s.paymentStatus}</span>`;
 
-  // Stats
   const cgpa = document.getElementById('s-cgpa');
   cgpa.textContent = s.cgpa.toFixed(2);
   cgpa.style.color = s.cgpa >= 3.5 ? 'var(--green)' : s.cgpa >= 2.5 ? 'var(--warn)' : 'var(--danger)';
   document.getElementById('s-cgpa-sub').textContent = s.cgpa >= 3.5 ? 'Excellent' : s.cgpa >= 2.5 ? 'Average' : 'Needs Attention';
   document.getElementById('s-credits').textContent = s.completedCredit;
   document.getElementById('s-mentoring').textContent = s.mentoringCount;
-  
+
   const dueEl = document.getElementById('s-due');
-  dueEl.textContent = s.dueAmount > 0 ? '৳ ' + s.dueAmount.toLocaleString() : '৳ 0';
+  dueEl.textContent = s.dueAmount > 0 ? s.dueAmount.toLocaleString() : '0';
   dueEl.style.color = s.dueAmount === 0 ? 'var(--green)' : s.dueAmount > 10000 ? 'var(--danger)' : 'var(--warn)';
-  document.getElementById('s-due-sub').textContent = s.dueAmount === 0 ? 'All clear' : 'Outstanding';
+  document.getElementById('s-due-sub').textContent = s.dueAmount === 0 ? 'All clear' : 'outstanding';
 
   // Issues
   const issEl = document.getElementById('s-issues');
   issEl.innerHTML = s.issues.length === 0
-    ? '<span class="issue-tag issue-ok">✓ No critical issues found</span>'
+    ? '<span class="issue-tag issue-ok">✓ No critical issues</span>'
     : s.issues.map(i => {
         const c = i.includes('Low') || i.includes('Due:') ? 'issue-danger' : 'issue-warn';
         return `<span class="issue-tag ${c}">${i}</span>`;
@@ -1316,52 +1373,49 @@ function renderProfile(s) {
     }).join('');
   }
 
-  // Payment bar
+  // Payment
   const pct = s.totalPayable > 0 ? Math.min(100, Math.round((s.totalPaid / s.totalPayable) * 100)) : 100;
   const bar = document.getElementById('s-paybar');
   bar.style.width = pct + '%';
   bar.className = 'payment-bar-fill' + (pct < 90 ? ' danger' : pct < 100 ? ' partial' : '');
-  document.getElementById('s-payable').textContent = '৳ ' + s.totalPayable.toLocaleString();
+  document.getElementById('s-payable').textContent = 'Total payable  ' + s.totalPayable.toLocaleString() + ' BDT';
   document.getElementById('s-paid-label').textContent = 'Paid: ৳' + s.totalPaid.toLocaleString() + ' (' + pct + '%)';
   document.getElementById('s-due-label').textContent = s.dueAmount > 0 ? 'Due: ৳' + s.dueAmount.toLocaleString() : '✓ Fully paid';
 
   // Guardian
   document.getElementById('s-guardian').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11px;">
-      <div>
-        <div style="color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;">Father</div>
-        <div style="font-weight:600;color:var(--text)">${s.fatherName}</div>
-        <div style="color:var(--accent);font-family:var(--mono)">${s.fatherMobile}</div>
-      </div>
-      <div>
-        <div style="color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;">Mother</div>
-        <div style="font-weight:600;color:var(--text)">${s.motherName}</div>
-        <div style="color:var(--accent);font-family:var(--mono)">${s.motherMobile}</div>
-      </div>
+    <div class="guardian-block">
+      <div class="guardian-role">Father</div>
+      <div class="guardian-name">${s.fatherName}</div>
+      <div class="guardian-mobile">${s.fatherMobile}</div>
+    </div>
+    <div class="guardian-block">
+      <div class="guardian-role">Mother</div>
+      <div class="guardian-name">${s.motherName}</div>
+      <div class="guardian-mobile">${s.motherMobile}</div>
     </div>`;
 
-  // Semester results table
+  // Semester results
   const semWrap = document.getElementById('s-sem-table');
   if (!s.semesters || s.semesters.length === 0) {
-    semWrap.innerHTML = '<div style="font-size:11px;color:var(--muted);padding:10px;">No detailed semester data available.</div>';
+    semWrap.innerHTML = '<div style="font-size:11px;color:var(--muted);padding:8px;">No detailed semester data available.</div>';
   } else {
     const grouped = {};
     s.semesters.forEach(r => { if (!grouped[r.sem]) grouped[r.sem] = []; grouped[r.sem].push(r); });
     let html = '';
     Object.entries(grouped).forEach(([sem, rows]) => {
-      html += `<div style="font-size:11px;font-weight:700;color:var(--text2);padding:8px 0 4px;text-transform:uppercase;letter-spacing:0.05em;">${sem}</div>`;
+      html += `<div style="font-size:10px;font-weight:700;color:var(--muted);padding:8px 0 4px;text-transform:uppercase;letter-spacing:0.06em;">${sem}</div>`;
       html += `<table class="sem-table"><thead><tr><th>Code</th><th>Course</th><th>Cr</th><th>Total</th><th>Grade</th></tr></thead><tbody>`;
       rows.forEach(r => {
         const gc = r.gp >= 3.5 ? 'grade-a' : r.gp >= 3 ? 'grade-b' : r.gp >= 2 ? 'grade-c' : r.gp >= 1 ? 'grade-d' : 'grade-f';
         const absentNote = r.absent ? ' ⚠' : '';
-        html += `<tr><td style="font-family:var(--mono)">${r.code}</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${r.title}</td><td>${r.credit}</td><td style="font-family:var(--mono)">${r.total}</td><td><span class="grade-badge ${gc}">${r.grade}${absentNote}</span></td></tr>`;
+        html += `<tr><td style="font-family:var(--mono)">${r.code}</td><td>${r.title}</td><td>${r.credit}</td><td style="font-family:var(--mono)">${r.total}</td><td><span class="grade-badge ${gc}">${r.grade}${absentNote}</span></td></tr>`;
       });
       html += '</tbody></table>';
     });
     semWrap.innerHTML = html;
   }
 
-  // Scroll middle panel to top
   document.getElementById('middle-panel').scrollTop = 0;
 }
 
@@ -1370,9 +1424,8 @@ function renderProfile(s) {
 // ================================================================
 function enableChat(s) {
   document.getElementById('no-student-chat').style.display = 'none';
-  const body = document.getElementById('chat-body');
-  body.style.display = 'flex';
-  document.getElementById('chat-header-text').textContent = s.name.split(' ')[0] + ' · AI Advisor';
+  document.getElementById('chat-body').style.display = 'flex';
+  document.getElementById('chat-header-name').textContent = s.name.split(' ').filter(w=>w.length>1)[0] || s.name.split(' ')[0];
   document.getElementById('chat-dot').classList.add('live');
   document.getElementById('chat-messages').innerHTML = '<div class="msg-hint">Ask anything about this student\'s academic record</div>';
   document.getElementById('suggestions').style.display = 'flex';
@@ -1420,9 +1473,6 @@ ${issueText}
 === SEMESTER COURSE RESULTS ===
 ${semText}
 
-=== COUNSELLING ===
-No counselling sessions recorded yet.
-
 Instructions:
 - Be concise, professional, and helpful.
 - Focus on academic advising: CGPA improvement, payment urgency, credit completion, mentoring.
@@ -1441,13 +1491,11 @@ async function sendMsg() {
   document.getElementById('send-btn').disabled = true;
   const msgs = document.getElementById('chat-messages');
 
-  // User bubble
   const userBubble = document.createElement('div');
   userBubble.className = 'msg msg-user';
   userBubble.textContent = text;
   msgs.appendChild(userBubble);
 
-  // Typing
   const typing = document.createElement('div');
   typing.className = 'msg msg-ai typing-indicator';
   typing.innerHTML = '<span></span><span></span><span></span>';
@@ -1468,7 +1516,6 @@ async function sendMsg() {
 
     const data = await res.json();
     if (data.error) throw new Error(data.error);
-
     const reply = data.reply || "No response.";
     chatHistory.push({ role: "assistant", content: reply });
 
@@ -1492,14 +1539,9 @@ async function sendMsg() {
   input.focus();
 }
 
-// ================================================================
-//  UI HELPERS
-// ================================================================
 function toggleSection(sectionId, arrowId) {
-  const section = document.getElementById(sectionId);
-  const arrow = document.getElementById(arrowId);
-  section.classList.toggle('open');
-  arrow.classList.toggle('open');
+  document.getElementById(sectionId).classList.toggle('open');
+  document.getElementById(arrowId).classList.toggle('open');
 }
 
 // Auto-resize textarea
@@ -1508,7 +1550,7 @@ document.getElementById('chat-input').addEventListener('input', function() {
   this.style.height = Math.min(this.scrollHeight, 120) + 'px';
 });
 
-// Enter to send (Shift+Enter for newline)
+// Enter to send
 document.getElementById('chat-input').addEventListener('keydown', e => {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
 });
@@ -1518,20 +1560,8 @@ document.getElementById('sid-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') loadStudent();
 });
 
-// Live search filter
-document.getElementById('sid-input').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  document.querySelectorAll('.student-list-item').forEach(el => {
-    const name = el.querySelector('.sli-name').textContent.toLowerCase();
-    const id = el.querySelector('.sli-id').textContent.toLowerCase();
-    el.style.display = (name.includes(q) || id.includes(q)) ? '' : 'none';
-  });
-});
-
-// ================================================================
-//  BOOT
-// ================================================================
-initStudentList();
+// Init
+initQuickChips();
 </script>
 </body>
 </html>
